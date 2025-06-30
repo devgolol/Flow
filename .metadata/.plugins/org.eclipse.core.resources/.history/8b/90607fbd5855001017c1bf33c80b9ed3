@@ -1,0 +1,42 @@
+package com.flow.coretime.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+	
+	@Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/login", "/").permitAll()
+						.anyRequest().authenticated()
+				)
+				.formLogin(formLogin -> formLogin
+						.loginPage("/login")
+					    .loginProcessingUrl("/doLogin")
+					    .usernameParameter("username")
+					    .passwordParameter("password")
+					    .defaultSuccessUrl("/home", true) // <<< 로그인 성공 시 이동할 페이지 명시
+					    .failureUrl("/login?error=true") // <<< 로그인 실패 시 이동할 페이지 명시
+					    .permitAll() // <<< formLogin 관련 엔드포인트에 대한 접근 허용 (이것도 중요!)
+				)
+				.logout(logout -> logout
+						.logoutUrl("/logout")
+						.logoutSuccessUrl("/login") // <<< 로그아웃 성공 시 이동할 페이지 명시
+						.permitAll() // <<< 로그아웃 관련 엔드포인트에 대한 접근 허용
+				);
+
+		return http.build();
+	}
+}

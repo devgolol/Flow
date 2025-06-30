@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<body>
+<h2>신규 유저 생성</h2>
+<form:form modelAttribute="user" method="post" action="/users/insert">
+	<p>이름 (한글): <form:input path="name" value= "박지훈"/></p>
+    <p>아이디: <form:input path="id" value= "flow1"/></p>
+    <p>비밀번호: <form:password path="password" value= "1234"/></p>
+    <p>비밀번호 확인: <form:password path="confirmPassword" value= "1234"/></p>
+    <p>이메일: <form:input path="email" value= "jack981109@naver.com"/></p>
+    <p>전화번호: <form:input path="tel" value= "010-6230-1825"/></p>
+    <p>직위: 
+        <form:select path="rank">
+            <form:option value="">선택</form:option>
+            <form:option value="사원">사원</form:option>
+            <form:option value="대리">대리</form:option>
+            <form:option value="과장">과장</form:option>
+            <form:option value="차장">차장</form:option>
+            <form:option value="부장">부장</form:option>
+        </form:select>
+    </p>
+    <p>부서: <form:input path="department"/></p>
+    <p>생년월일: <form:input path="birth"/></p>
+
+    <p>
+        <button type="submit">저장</button>
+        <button type="submit" formaction="/users/saveAndContinue">저장 후 계속 생성</button>
+    </p>
+</form:form>
+</body>
+</body>
+</html>

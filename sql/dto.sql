@@ -1,0 +1,16 @@
+CREATE TABLE users
+(
+    name VARCHAR2(50) NOT NULL,
+	id VARCHAR2(50) NOT NULL,
+	password VARCHAR2(255) NOT NULL,
+    email VARCHAR2(50) NOT NULL,
+    tel VARCHAR2(50) NOT NULL,
+    rank VARCHAR2(50) NOT NULL,
+    department VARCHAR2(50) NOT NULL,
+    birth DATE NOT NULL,
+    updatedAt DATE DEFAULT SYSDATE NOT NULL,
+    createdAt DATE DEFAULT SYSDATE NOT NULL,
+    role VARCHAR2(10)
+);
+
+ALTER TABLE users ADD CONSTRAINT uk_users_id UNIQUE (id);

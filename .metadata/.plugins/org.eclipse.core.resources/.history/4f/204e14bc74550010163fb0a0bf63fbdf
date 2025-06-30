@@ -1,0 +1,21 @@
+package com.flow.coretime.model;
+
+import java.time.LocalDate;
+
+import lombok.Data;
+
+@Data
+public class User {
+    private String name;
+    private String username;
+    private String password;
+    private String confirmPassword;
+    private String tel;
+    private String rank;
+    private String department;
+    private LocalDate birth;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private String roles; // DB의 ROLES (예: "USER")
+    // Getters and Setters
+}
