@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.flow.coretime.exception.UserAlreadyExistsException;
 import com.flow.coretime.mapper.UserMapper;
 import com.flow.coretime.model.User;
 
@@ -28,13 +29,19 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void insertUser(User user) {
+
+		if (userMapper.countById(user.getId()) > 0) {
+            // 비즈니스 규칙 위반이므로, 비즈니스 의미를 가진 커스텀 예외를 던집니다.
+            throw new UserAlreadyExistsException("이미 사용 중인 아이디입니다."); 
+        }
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setCreatedAt(LocalDate.now());
 		user.setUpdatedAt(LocalDate.now());
 		user.setRole("ROLE_USER");
 		userMapper.insertUser(user);
+
 	}
-	
+
 	public List<User> findAllUsers() {
 		return userMapper.findAllUsers();
 	}

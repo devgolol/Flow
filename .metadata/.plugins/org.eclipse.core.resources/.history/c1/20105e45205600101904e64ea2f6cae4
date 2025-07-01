@@ -1,0 +1,30 @@
+package com.flow.coretime.model;
+
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class User {
+    private String name;
+    private String id;
+    private String password;
+    private String confirmPassword;
+    private String email;
+    private String tel;
+    
+    @NotBlank(message = "직위를 선택해주세요.")
+    private String rank;
+    private String department;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birth;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private String role; // DB의 ROLES (예: "USER")
+    // Getters and Setters
+}

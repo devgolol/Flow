@@ -17,6 +17,12 @@
         SELECT
             NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, UPDATEDAT, CREATEDAT, ROLE AS ROLE
         FROM USERS
-        ORDER BY CREATEDAT DESC -- 최신 등록 사용자부터 보이도록 정렬
+        ORDER BY CREATEDAT DESC
+    </select>
+    
+    <select id="countById" resultType="int">
+        SELECT COUNT(*)
+        FROM USERS
+        WHERE ID = #{id}
     </select>
 </mapper>

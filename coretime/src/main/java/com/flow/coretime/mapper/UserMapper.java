@@ -14,6 +14,8 @@ public interface UserMapper {
 	User findById(String id);
 	
 	List<User> findAllUsers();
+	
+	int countById(String id);
 
 //    // XML 매퍼 파일의 id="findById"와 매핑됩니다.
 //    Optional<User> findById(Long id);

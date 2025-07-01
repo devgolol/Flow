@@ -14,3 +14,6 @@ CREATE TABLE users
 );
 
 ALTER TABLE users ADD CONSTRAINT uk_users_id UNIQUE (id);
+
+INSERT INTO USERS (NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, ROLE)
+        VALUES ('관리자', 'admin', '1234', 'jack981109@naver.com', '010-6230-1825', '관리자', '관리자', '1998-11-09', 'ROLE_ADMIN');

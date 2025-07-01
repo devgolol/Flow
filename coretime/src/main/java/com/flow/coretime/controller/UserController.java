@@ -4,13 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.flow.coretime.exception.UserAlreadyExistsException;
 import com.flow.coretime.model.User;
 import com.flow.coretime.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
@@ -41,8 +46,27 @@ public class UserController {
 	}
 
 	@PostMapping("/insert")
-	public String insertUser(@ModelAttribute User user) {
-		userService.insertUser(user);
-		return "redirect:/users"; // 등록 후 다시 폼으로
+	public String insertUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+            System.out.println("Validation errors: " + bindingResult.getAllErrors());
+			return "userForm";
+		}
+		
+		try {
+			userService.insertUser(user);
+		} catch (UserAlreadyExistsException e) {
+			bindingResult.addError(new FieldError("user", "id", user.getId(), false, null, null, e.getMessage()));
+			model.addAttribute("user", user);
+			return "userForm";
+		} catch (Exception e) {
+            System.err.println("Unhandled Exception during user insertion: " + e.getMessage());
+            model.addAttribute("errorMessage", "사용자 등록 중 알 수 없는 오류가 발생했습니다.");
+            model.addAttribute("user", user);
+            return "userForm"; 
+        }
+		
+		return "redirect:/users";
 	}
-}
+
+	}
+
