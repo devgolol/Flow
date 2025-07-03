@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.flow.coretime.mapper")
+@MapperScan("com.flow.coretime.users.mapper")
 public class CoretimeApplication {
 
 	public static void main(String[] args) {
