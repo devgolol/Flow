@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 package com.flow.coretime.users.model;
+=======
+package com.flow.coretime.model;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
 import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+<<<<<<< HEAD
 import com.flow.coretime.users.validation.PasswordMatches;
+=======
+import com.flow.coretime.validation.PasswordMatches;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

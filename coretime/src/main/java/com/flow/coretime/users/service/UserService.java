@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.flow.coretime.users.service;
+=======
+package com.flow.coretime.service;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -13,9 +17,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import com.flow.coretime.users.exception.UserAlreadyExistsException;
 import com.flow.coretime.users.mapper.UserMapper;
 import com.flow.coretime.users.model.User;
+=======
+import com.flow.coretime.exception.UserAlreadyExistsException;
+import com.flow.coretime.mapper.UserMapper;
+import com.flow.coretime.model.User;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 

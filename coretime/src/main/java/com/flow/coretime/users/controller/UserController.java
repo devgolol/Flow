@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.flow.coretime.users.controller;
+=======
+package com.flow.coretime.controller;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+<<<<<<< HEAD
 import com.flow.coretime.users.exception.UserAlreadyExistsException;
 import com.flow.coretime.users.model.User;
 import com.flow.coretime.users.service.UserService;
+=======
+import com.flow.coretime.exception.UserAlreadyExistsException;
+import com.flow.coretime.model.User;
+import com.flow.coretime.service.UserService;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 import com.github.pagehelper.PageInfo;
 
 import jakarta.validation.Valid;

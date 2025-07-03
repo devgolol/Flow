@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 package com.flow.coretime.users.mapper;
+=======
+package com.flow.coretime.mapper;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+<<<<<<< HEAD
 import com.flow.coretime.users.model.User;
+=======
+import com.flow.coretime.model.User;
+>>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
 
 @Mapper 
