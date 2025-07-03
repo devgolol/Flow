@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#loginTitle {
+	text-align: center;
+}
+
+#loginForm {
+	margin: 300px;
+}

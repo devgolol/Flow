@@ -6,10 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="<c:url value='/resources/css/login.css'/>" type="text/css">
 </head>
 <body>
-    <h2>로그인</h2>
-    <form action="<c:url value='/doLogin'/>" method="post">
+    <h2 id= "loginTitle">로그인</h2>
+    <form id= "loginForm" action="<c:url value='/doLogin'/>" method="post">
     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <label>아이디:</label>
         <input type="text" name="username" /><br/>

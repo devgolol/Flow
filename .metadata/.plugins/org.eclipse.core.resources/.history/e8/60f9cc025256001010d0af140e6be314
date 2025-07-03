@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#loginTitle {
+	text-align: center;
+}
+
+#loginFor{
+	text-align: center;
+}

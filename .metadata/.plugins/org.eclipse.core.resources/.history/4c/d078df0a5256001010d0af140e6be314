@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+
+body {
+    display: flex; /* Flexbox 컨테이너로 만듭니다. */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 정렬합니다. */
+    justify-content: center; /* 세로 축(주 축)에서 가운데 정렬합니다. */
+    align-items: center; /* 가로 축(교차 축)에서 가운데 정렬합니다. */
+    min-height: 100vh; /* 뷰포트(브라우저 창)의 전체 높이를 사용하도록 설정합니다. */
+    margin: 0; /* body의 기본 마진을 제거합니다. */
+    padding: 0; /* body의 기본 패딩을 제거합니다. */
+}
+#loginTitle {
+	text-align: center;
+}
+
+#loginFor{
+	text-align: center;
+}

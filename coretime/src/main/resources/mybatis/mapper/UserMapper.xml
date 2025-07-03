@@ -25,4 +25,12 @@
         FROM USERS
         WHERE ID = #{id}
     </select>
+    
+    <delete id="deleteUsersByIds" parameterType="java.util.List">
+        DELETE FROM users
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

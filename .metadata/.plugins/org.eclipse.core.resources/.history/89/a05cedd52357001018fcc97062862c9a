@@ -1,0 +1,82 @@
+package com.flow.coretime.service;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.flow.coretime.exception.UserAlreadyExistsException;
+import com.flow.coretime.mapper.UserMapper;
+import com.flow.coretime.model.User;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+@Service
+public class UserService implements UserDetailsService {
+
+	private final UserMapper userMapper;
+	private final PasswordEncoder passwordEncoder;
+
+	public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder) {
+		this.userMapper = userMapper;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	public void insertUser(User user) {
+
+		if (userMapper.countById(user.getId()) > 0) {
+            // 비즈니스 규칙 위반이므로, 비즈니스 의미를 가진 커스텀 예외를 던집니다.
+            throw new UserAlreadyExistsException("이미 사용 중인 아이디입니다."); 
+        }
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setCreatedAt(LocalDate.now());
+		user.setUpdatedAt(LocalDate.now());
+		user.setRole("ROLE_USER");
+		userMapper.insertUser(user);
+	}
+	
+	/**
+     * 페이지네이션된 사용자 목록을 가져옵니다.
+     * @param pageNum 요청 페이지 번호 (1부터 시작)
+     * @param pageSize 한 페이지에 보여줄 항목 수
+     * @return PageInfo 객체 (페이징 정보와 사용자 목록을 포함)
+     */
+    public PageInfo<User> findUsersWithPagination(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<User> userList = userMapper.findAllUsers();
+
+        return new PageInfo<>(userList);
+    }
+
+	public List<User> findAllUsers() {
+		return userMapper.findAllUsers();
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+		User user = userMapper.findById(id);
+		System.out.println(user.getId());
+
+		List<GrantedAuthority> authorities = Arrays.stream(user.getRole().split(",")).map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList());
+
+		return new org.springframework.security.core.userdetails.User(user.getId(), // 사용자 아이디 (로그인에 사용될 식별자)
+				user.getPassword(), // 암호화된 비밀번호 (DB에서 가져온 그대로)
+				authorities // 사용자 권한 목록
+		);
+	}
+
+	public void deleteUsersByIds(List<String> userIds) {
+		
+	}
+
+}

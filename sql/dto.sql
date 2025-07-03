@@ -16,4 +16,10 @@ CREATE TABLE users
 ALTER TABLE users ADD CONSTRAINT uk_users_id UNIQUE (id);
 
 INSERT INTO USERS (NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, ROLE)
-        VALUES ('관리자', 'admin', '1234', 'jack981109@naver.com', '010-6230-1825', '관리자', '관리자', '1998-11-09', 'ROLE_ADMIN');
+        VALUES ('관리자', 'admin1', '$2a$12$Y8tBFI3YC7AZkrK7QgdJYO72YBJIzIz33.75xa5YhCxOqRlFtrsDi', 'jack981109@naver.com', '010-6230-1825', '관리자', '관리자', '1998-11-09', 'ROLE_ADMIN');
+
+UPDATE USERS
+SET PASSWORD ='$2a$10$CLzlxNWrpiDZ9yJhXECLNek2va.DZzSesFGwqhSgTB.I2WCJe4Sxy'
+WHERE ID = 'admin';
+
+commit;
