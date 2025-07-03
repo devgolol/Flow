@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.flow.coretime.board.domain.Board;
+import com.flow.coretime.board.dto.Board;
+
+
 
 @Mapper
 public interface BoardMapper {

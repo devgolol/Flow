@@ -1,0 +1,42 @@
+--------------------------------------------------------
+--  파일이 생성됨 - 월요일-6월-30-2025   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table USERS
+--------------------------------------------------------
+
+  CREATE TABLE "FLOW"."USERS" 
+   (	"NAME" VARCHAR2(50 BYTE), 
+	"ID" VARCHAR2(50 BYTE), 
+	"PASSWORD" VARCHAR2(255 BYTE), 
+	"EMAIL" VARCHAR2(50 BYTE), 
+	"TEL" VARCHAR2(50 BYTE), 
+	"RANK" VARCHAR2(50 BYTE), 
+	"DEPARTMENT" VARCHAR2(50 BYTE), 
+	"BIRTH" DATE, 
+	"UPDATEDAT" DATE DEFAULT SYSDATE, 
+	"CREATEDAT" DATE DEFAULT SYSDATE, 
+	"ROLE" VARCHAR2(10 BYTE)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  Constraints for Table USERS
+--------------------------------------------------------
+
+  ALTER TABLE "FLOW"."USERS" MODIFY ("NAME" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("PASSWORD" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("EMAIL" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("TEL" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("RANK" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("DEPARTMENT" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("BIRTH" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("UPDATEDAT" NOT NULL ENABLE);
+  ALTER TABLE "FLOW"."USERS" MODIFY ("CREATEDAT" NOT NULL ENABLE);
+  INSERT INTO USERS (NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, ROLE)
+        VALUES ('강감찬', 'flow1', '1234', 'daoOffice@naver.com', '010-6230-1825', '대리', '개발', '2025-06-30', 'ROLE_USER');
+        
+        DELETE FROM USERS
+WHERE name= '강감찬';
