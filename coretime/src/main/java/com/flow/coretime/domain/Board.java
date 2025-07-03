@@ -13,6 +13,8 @@ public class Board {
 
 	private String author;
 	
+	private String email;
+	
 	private String department;
 	
 	private String title;

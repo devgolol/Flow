@@ -9,11 +9,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserInfo {
 
 	private Long id;
 	
 	private String name;
+	
+	private String email;
 	
 	private String department;
 	
