@@ -1,4 +1,4 @@
-package com.flow.coretime.domain;
+package com.flow.coretime.board.domain;
 
 import java.time.LocalDateTime;
 

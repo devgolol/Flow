@@ -5,9 +5,10 @@
         
 <mapper namespace="com.flow.coretime.mapper.BoardMapper">
 
-<insert id="save" parameterType="com.flow.coretime.domain.Board" useGeneratedKeys="true" keyProperty="id">
+<insert id="save" parameterType="com.flow.coretime.board.domain.Board" useGeneratedKeys="true" keyProperty="id">
 	INSERT INTO BOARD(
 		AUTHOR,
+		EMAIL,
 		DEPARTMENT,
 		TITLE,
 		CONTENT,
@@ -24,7 +25,7 @@
 	)
 </insert>
 
-<select id="findById" parameterType="long" resultType="com.flow.coretime.domain.Board">
+<select id="findById" parameterType="long" resultType="com.flow.coretime.board.domain.Board">
 
 	SELECT
 		ID,
@@ -44,7 +45,7 @@
 
 </select>
 
-<select id="findAll" resultType="com.flow.coretime.domain.Board">
+<select id="findAll" resultType="com.flow.coretime.board.domain.Board">
 
 	SELECT
 		ID,
@@ -64,7 +65,7 @@
 
 </select>
 
-<update id="update" parameterType="com.flow.coretime.domain.Board">
+<update id="update" parameterType="com.flow.coretime.board.domain.Board">
 	
 	UPDATE
 		BOARD
@@ -97,7 +98,7 @@
 
 </update>
 
-<select id="findWithPaging" parameterType="map" resultType="com.flow.coretime.domain.Board">
+<select id="findWithPaging" parameterType="map" resultType="com.flow.coretime.board.domain.Board">
 
 	SELECT
 		ID,

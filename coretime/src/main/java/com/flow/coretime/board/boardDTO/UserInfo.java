@@ -1,4 +1,4 @@
-package com.flow.coretime.boardDTO;
+package com.flow.coretime.board.boardDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

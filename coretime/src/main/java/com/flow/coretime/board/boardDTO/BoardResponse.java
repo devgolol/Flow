@@ -1,8 +1,8 @@
-package com.flow.coretime.boardDTO;
+package com.flow.coretime.board.boardDTO;
 
 import java.time.LocalDateTime;
 
-import com.flow.coretime.domain.Board;
+import com.flow.coretime.board.domain.Board;
 
 import lombok.Getter;
 
@@ -12,6 +12,8 @@ public class BoardResponse {
 	private final Long id;
 	
 	private final String author;
+	
+	private final String email;
 	
 	private final String department;
 	
@@ -31,6 +33,7 @@ public class BoardResponse {
 	public BoardResponse(Board board) {
 		this.id = board.getId();
 		this.author = board.getAuthor();
+		this.email = board.getEmail();
 		this.department = board.getDepartment();
 		this.title = board.getTitle();
 		this.content = board.getContent();
