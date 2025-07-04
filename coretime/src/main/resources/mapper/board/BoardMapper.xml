@@ -41,8 +41,8 @@
 		UPDATE
 			BOARD
 		SET
-			TITLE = #{title}
-			CONTENT = #{content}
+			TITLE = #{title},
+			CONTENT = #{content},
 			UPDATED_AT = SYSDATE
 		WHERE
 			ID = #{id}
@@ -69,15 +69,80 @@
 	
 	</update>
 	
+	<sql id="searchCondition">
 	
+		<where>
+		
+		<if test="boardType ! = null and boardType ! = ''">
+		
+			And Board_TYPE = #{boardType}
+		
+		</if>
+		
+		<if test="searchType ! = null and keyword ! = null and keyword ! = ''">
+		
+			<choose>
+			
+			<when test="searchType == 'title'">
+			
+				AND TITLE LIKE '%' || #{keyword} || '%'
+			
+			</when>
+			
+			<when test="searchType == 'content'">
+			
+				AND CONTENT LIKE '%' || #{keyword} || '%'
+			
+			</when>
+			
+			<when test="searchType == 'author'">
+			
+				AND AUTHOR LIKE '%' || #{keyword} || '%'
+			
+			</when>
+			
+			</choose>
+		
+		</if>
+		
+		</where>
 	
+	</sql>
 	
+	<select id="findWithPaging" parameterType="map"
+	resultType="com.flow.coretime.board.dto.Board">
 	
+		SELECT
+			ID,
+			AUTHOR,
+			EMAIL,
+			DEPARTMENT_NAME,
+			TITLE,
+			CONTENT,
+			VIEW_COUNT,
+			CREATED_AT,
+			UPDATED_AT,
+			BOARD_TYPE,
+			ROLE
+		FROM
+			BOARD
+			
+		<include refid="searchCondition"/>
+		
+		ORDER BY
+			ID DESC
+		OFFSET #{offset} ROWS
+		FETCH NEXT #{pageSize} ROWS ONLY>
+	</select>
 	
+	<select id="count" parameterType="map" resultType="int">
 	
+		SELECT
+			COUNT(*)
+		FROM
+			BOARD
+		<include refid="searchCondition"/>
 	
-	
-	
-	
+	</select>
 	
 </mapper>
