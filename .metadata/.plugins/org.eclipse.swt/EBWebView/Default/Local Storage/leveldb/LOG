@@ -1,3 +1,3 @@
-2025/07/04-16:41:05.750 1980 Reusing MANIFEST C:\flow\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
-2025/07/04-16:41:05.889 1980 Recovering log #3
-2025/07/04-16:41:05.914 1980 Reusing old log C:\flow\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+2025/07/07-09:59:54.635 bdc Reusing MANIFEST C:\flow\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/07-09:59:54.648 bdc Recovering log #3
+2025/07/07-09:59:54.651 bdc Reusing old log C:\flow\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
