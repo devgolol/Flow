@@ -4,17 +4,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>홈</title>
+<style>
+	.content{
+		display: flex;
+	}
+	
+</style>
 </head>
 <body>
-	<h1>root</h1>
-	<div id="nav">
-		<%@ include file="leftNav.jsp" %>
+	<div id="header">
+		<%@ include file="header.jsp" %>
 	</div>
-	<form action="/logout" method="post">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<button type="submit">로그아웃</button>
-	</form>
-	<a href= "/users">유저</a>
+
+	<div class="content">
+		<div class= "nav">
+			<%@ include file="leftNav.jsp" %>
+		</div>
+	</div>
+	
+	
 </body>
 </html>

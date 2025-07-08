@@ -11,29 +11,12 @@
 <title>사용자 정보 수정</title>
 
 <style>
-body {
-	display: flex;
-	font-family: Arial, sans-serif;
-}
-
-#nav {
-	width: 200px;
-	padding: 10px;
-	box-sizing: border-box;
-}
-
 .main-content {
-	flex-grow: 1;
-	padding: 20px;
-	box-sizing: border-box;
+	width: auto;
+	display: flex;
 }
 
-h1 {
-	color: #333;
-}
-
-.form-container {
-	background-color: #fff;
+.user-edit {
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -85,52 +68,70 @@ h1 {
 	background-color: #6c757d;
 	color: white;
 }
+
+/*========================================================*/
+
+.user-edit{
+	margin: 0 auto;
+}
+.profile-image-section__preview{
+	max-width: 300px;
+}
+.profile-image-section__input{
+	display: none;
+}
+.profile-image-section__edit-button img{
+	width: 30px;
+	height: auto;
+}
+.profile-image-section__edit-button img:hover{
+	background-color: #e0e0e0;
+	cursor: pointer;
+}
+
 </style>
+<script>
+	document.addEventListener('DOMContentLoaded', function(){
+		const profileImageInput = document.getElementById('profileImage');
+		const profileImagePreview = document.getElementById('profileImagePreview');
+		if (profileImageInput && profileImagePreview) {
+			profileImageInput.addEventListener('change', function(event) {
+				if (event.target.files && event.target.files[0]) {
+					const reader = new FileReader();
+					reader.onload = function(e) {
+						profileImagePreview.src = e.target.result;
+					};
+					reader.readAsDataURL(profileImageInput.files[0]);
+				} 
+			});
+		}
+	})
+</script>
 </head>
 <body>
 	<div id="nav">
-		<%@ include file="leftNav.jsp"%>
+		<%@ include file="header.jsp"%>
 	</div>
 
 	<div class="main-content">
-		<h1>사용자 정보 수정</h1>
 
-		<div class="form-container">
-			<%-- <form action="/users/edit?existingId=${user.id}" method="post">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<input type="hidden" name="id" value="${user.id}" />
 
-				<div class="form-group">
-					<label for="name">이름:</label>
-					<input type="text" id="name" name="name" value="${user.name}" required>
-				</div>
-				
-				<div class="form-group">
-					<label for="email">이메일:</label>
-					<input type="text" id="email" name="email" value="${user.name}" required>
-				</div>
+		<div id="nav">
+			<%@ include file="leftNav.jsp"%>
+		</div>
+		
+		
 
-				<div class="form-group">
-					<label for="tel">전화번호:</label>
-					<input type="text" id="tel" name="tel" value="${user.tel}">
+		<div class="user-edit">
+			<h1>사용자 정보 수정</h1>
+			<form:form modelAttribute="user" method="post" action="/users/edit?existingId=${user.id}" enctype= "multipart/form-data">
+				<div class="user-edit__form-group profile-image-section">
+					<img class= "profile-image-section__preview" id= "profileImagePreview" src= "${user.profileImagePath}" alt="프로필 이미지 미리보기" />
+					<input class= "profile-image-section__input"type="file" id="profileImage" name="profileImage" accept="image/*"/>
+					<label class="profile-image-section__edit-button" for="profileImage" >
+						<img src="/resources/images/pencil.svg"/>
+					</label>
 				</div>
-
-				<div class="form-group">
-					<label for="rank">직위:</label>
-					<input type="text" id="rank" name="rank" value="${user.rank}">
-				</div>
-
-				<div class="form-group">
-					<label for="department">부서:</label>
-					<input type="text" id="department" name="department" value="${user.department}">
-				</div>
-				<div class="form-actions">
-					<button type="submit" class="submit-btn">수정 완료</button>
-					<button type="button" class="cancel-btn" onclick="history.back()">취소</button>
-				</div>
-			</form> --%>
-			<form:form modelAttribute="user" method="post" action="/users/edit?existingId=${user.id}">
-			
 				<div class="form-group">
 					<label for="name">이름:</label>
 					<form:input path="name" id="name"/>
@@ -139,10 +140,10 @@ h1 {
 					<label for="id">아이디:</label>
 					<form:input path="id" id="id"/>
 				</div>
-				<div class="form-group">
+				<%-- <div class="form-group">
 					<label for="password">비밀번호:</label>
 					<form:input type= "password" path="password" id="password" placeholder="변경할 비밀번호를 입력하세요"/>
-				</div>
+				</div> --%>
 				<div class="form-group">
 					<label for="email">이메일:</label>
 					<form:input type="email" path="email"  id="email"/>

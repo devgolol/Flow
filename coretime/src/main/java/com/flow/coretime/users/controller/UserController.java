@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.flow.coretime.users.exception.UserAlreadyExistsException;
 import com.flow.coretime.users.model.User;
@@ -57,14 +58,14 @@ public class UserController {
 	}
 
 	@PostMapping("/insert")
-	public String insertUser(@Valid @ModelAttribute User user, BindingResult bindingResult, @RequestParam("profileImage") String profileImagePath,Model model) {
+	public String insertUser(@Valid @ModelAttribute User user, BindingResult bindingResult, @RequestParam("profileImage") MultipartFile profileImage,Model model) {
 		if (bindingResult.hasErrors()) {
 			System.out.println("Validation errors: " + bindingResult.getAllErrors());
 			return "userForm";
 		}
 		
 		try {
-			userService.insertUser(user, profileImagePath);
+			userService.insertUser(user, profileImage);
 		} catch (UserAlreadyExistsException e) {
 			bindingResult.addError(new FieldError("user", "id", user.getId(), false, null, null, e.getMessage()));
 			model.addAttribute("user", user);
@@ -84,28 +85,27 @@ public class UserController {
 	public ResponseEntity<Map<String, String>> deleteUsers(@RequestBody Map<String, List<String>> payload) {
 		List<String> userIds = payload.get("ids");
 		try {
-		if (userIds == null || userIds.isEmpty()) {
-			return ResponseEntity.badRequest().body(Map.of("message", "삭제할 사용자 ID가 없습니다."));
-		}
-		userService.deleteUsersByIds(userIds);
-		return ResponseEntity.ok(Map.of("message", "사용자가 성공적으로 삭제되었습니다."));
-		} catch (Exception e) {
-		return ResponseEntity.internalServerError().body(Map.of("message", "사용자 삭제 중 오류 발생: " + e.getMessage()));
+			if (userIds == null || userIds.isEmpty()) {
+				return ResponseEntity.badRequest().body(Map.of("message", "삭제할 사용자 ID가 없습니다."));
+			}
+			userService.deleteUsersByIds(userIds);
+			return ResponseEntity.ok(Map.of("message", "사용자가 성공적으로 삭제되었습니다."));
+			} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(Map.of("message", "사용자 삭제 중 오류 발생: " + e.getMessage()));
 		}
 	}
 	
 	@GetMapping("/edit")
 	public String showEditUser(@RequestParam("existingId") String existingId, Model model) {
-			User user= userService.findById(existingId);
-			model.addAttribute("user", user);
+		User user= userService.findById(existingId);
+		model.addAttribute("user", user);
 
 		return "edit";
 	}
 	
 	@PostMapping("/edit")
-	public String editUser(@RequestParam("existingId") String existingId, @ModelAttribute User newUserInfo) {
-
-			userService.updateUserByExistingId(existingId, newUserInfo);
+	public String editUser(@RequestParam("existingId") String existingId, @RequestParam("profileImage")MultipartFile profileImage, @ModelAttribute User newUserInfo) {
+		userService.updateUserByExistingId(existingId, profileImage, newUserInfo);
 		return "redirect:/users";
 	}
 

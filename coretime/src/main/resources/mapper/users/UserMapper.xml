@@ -4,13 +4,13 @@
 <mapper namespace="com.flow.coretime.users.mapper.UserMapper">
 
 	<select id="findById" resultType="com.flow.coretime.users.model.User">
-        SELECT NAME, ID, PASSWORD, email, tel, rank, department, role
+        SELECT NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, ROLE, PROFILEIMAGEPATH
         FROM USERS
         WHERE ID = #{id}
     </select>
 	<insert id="insertUser" parameterType="com.flow.coretime.users.model.User">
-        INSERT INTO USERS (NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, UPDATEDAT, CREATEDAT, ROLE)
-        VALUES (#{name}, #{id}, #{password}, #{email}, #{tel}, #{rank}, #{department}, #{birth}, #{updatedAt}, #{createdAt}, #{role})
+        INSERT INTO USERS (NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, UPDATEDAT, CREATEDAT, ROLE, PROFILEIMAGEPATH)
+        VALUES (#{name}, #{id}, #{password}, #{email}, #{tel}, #{rank}, #{department}, #{birth}, #{updatedAt}, #{createdAt}, #{role}, #{profileImagePath})
     </insert>
     
     <select id="findAllUsers" resultType="com.flow.coretime.users.model.User">
@@ -36,14 +36,18 @@
     
     <update id="updateUserByExistingId" parameterType="com.flow.coretime.users.model.User">
     	UPDATE users
-    		SET
+    		<set>
     			id= #{newUserInfo.id},
     			name= #{newUserInfo.name},
     			email= #{newUserInfo.email},
     			tel= #{newUserInfo.tel},
     			rank= #{newUserInfo.rank},
     			department= #{newUserInfo.department},
-    			updatedAt= #{newUserInfo.updatedAt}
+    			updatedAt= #{newUserInfo.updatedAt},
+                <if test="newUserInfo.profileImagePath != null and newUserInfo.profileImagePath != ''">
+                    profileImagePath = #{newUserInfo.profileImagePath},
+                </if>
+            </set>
     		WHERE
     			id= #{existingId}
     			

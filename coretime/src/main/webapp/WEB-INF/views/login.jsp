@@ -30,10 +30,11 @@
         <div class="login-form__button-group"> 
             <button type="submit" class="login-form__button btn btn-primary btn-lg">로그인</button>
             <a href="/login/findIdByEmail" class="login-form__button btn btn-primary btn-lg">아이디 찾기</a>
-        </div>
-        <c:if test="${param.error != null}">
+            <c:if test="${param.error != null}">
             <p class="login-form__error-message">아이디 또는 비밀번호가 틀렸습니다.</p>
         </c:if>
+        </div>
+        
     </form>
 </body>
 </html>

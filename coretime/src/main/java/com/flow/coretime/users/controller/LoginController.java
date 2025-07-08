@@ -31,7 +31,7 @@ public class LoginController {
 	}
 
 	@GetMapping("/findIdByEmail")
-	public String showfindId(){
+	public String showfindIdByEmail(){
 		return "findIdByEmail";
 	}
 

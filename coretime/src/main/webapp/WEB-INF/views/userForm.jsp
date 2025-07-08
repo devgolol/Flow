@@ -8,6 +8,11 @@
 	<title>신규 유저 생성</title>
 	<link rel="stylesheet" href='/resources/css/userForm.css' type="text/css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+	<style>
+		.content{
+			display:flex;
+		}
+	</style>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
@@ -191,89 +196,97 @@
 	</script>
 </head>
 <body>
-<div class="user-create">
-	<h2 class="user-create__title">신규 유저 생성</h2>
-	<form:form modelAttribute="user" method="post" action="/users/insert"
-	onsubmit="return validateForm(event)" enctype="multipart/form-data" class="user-create__form">
-	<div class="user-create__form-group">
-		<img  id= "profileImagePreview" alt="프로필 이미지 미리보기" class="user-create__image-preview" />
+	<div id="header">
+                <%@ include file="header.jsp" %>
 	</div>
-	<div class="user-create__form-group">
-		<label for="profileImage" class="user-create__label">프로필 사진:</label>
-		<input type="file" id="profileImage" name="profileImage" accept="image/*" class="user-create__input user-create__input--file"/>
-	</div>
-	<div class="user-create__form-group">
-		<label for="name" class="user-create__label">이름 (한글):</label>
-		<form:input path="name" id="name" class="user-create__input"/>
-		<form:errors path="name" cssClass="user-create__error-message" cssStyle="color: red;" id="nameError" />
-	</div>
+	<div class= "content">
+                <div id="nav">
+                    <%@ include file="leftNav.jsp" %>
+                </div>
+		<div class="user-create">
+			<h2 class="user-create__title">신규 유저 생성</h2>
+			<form:form modelAttribute="user" method="post" action="/users/insert"
+			onsubmit="return validateForm(event)" enctype="multipart/form-data" class="user-create__form">
+			<div class="user-create__form-group">
+				<img  id= "profileImagePreview" alt="프로필 이미지 미리보기" class="user-create__image-preview" />
+			</div>
+			<div class="user-create__form-group">
+				<label for="profileImage" class="user-create__label">프로필 사진:</label>
+				<input type="file" id="profileImage" name="profileImage" accept="image/*" class="user-create__input user-create__input--file"/>
+			</div>
+			<div class="user-create__form-group">
+				<label for="name" class="user-create__label">이름 (한글):</label>
+				<form:input path="name" id="name" class="user-create__input"/>
+				<form:errors path="name" cssClass="user-create__error-message" cssStyle="color: red;" id="nameError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="id" class="user-create__label">아이디:</label>
-		<form:input path="id" id="id" class="user-create__input"/>
-		<form:errors path="id" cssClass="user-create__error-message" cssStyle="color: red;" id="idError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="id" class="user-create__label">아이디:</label>
+				<form:input path="id" id="id" class="user-create__input"/>
+				<form:errors path="id" cssClass="user-create__error-message" cssStyle="color: red;" id="idError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="password" class="user-create__label">비밀번호:</label>
-		<form:password path="password" id="password" class="user-create__input"/>
-		<form:errors path="password" cssClass="user-create__error-message" cssStyle="color: red;" id="passwordError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="password" class="user-create__label">비밀번호:</label>
+				<form:password path="password" id="password" class="user-create__input"/>
+				<form:errors path="password" cssClass="user-create__error-message" cssStyle="color: red;" id="passwordError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="confirmPassword" class="user-create__label">비밀번호 확인:</label>
-		<form:password path="confirmPassword" id="confirmPassword" class="user-create__input"/>
-		<form:errors path="confirmPassword" cssClass="user-create__error-message" cssStyle="color: red;" id="confirmPasswordError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="confirmPassword" class="user-create__label">비밀번호 확인:</label>
+				<form:password path="confirmPassword" id="confirmPassword" class="user-create__input"/>
+				<form:errors path="confirmPassword" cssClass="user-create__error-message" cssStyle="color: red;" id="confirmPasswordError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="email" class="user-create__label">이메일:</label>
-		<form:input path="email" id="email" class="user-create__input"/>
-		<form:errors path="email" cssClass="user-create__error-message" cssStyle="color: red;" id="emailError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="email" class="user-create__label">이메일:</label>
+				<form:input path="email" id="email" class="user-create__input"/>
+				<form:errors path="email" cssClass="user-create__error-message" cssStyle="color: red;" id="emailError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="tel" class="user-create__label">전화번호:</label>
-		<form:input path="tel" id="tel" class="user-create__input" placeholder="010-XXXX-XXXX"/> <%-- placeholder 추가 --%>
-		<form:errors path="tel" cssClass="user-create__error-message" cssStyle="color: red;" id="telError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="tel" class="user-create__label">전화번호:</label>
+				<form:input path="tel" id="tel" class="user-create__input" placeholder="010-XXXX-XXXX"/> <%-- placeholder 추가 --%>
+				<form:errors path="tel" cssClass="user-create__error-message" cssStyle="color: red;" id="telError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="rankSelect" class="user-create__label">직위:</label>
-		<form:select path="rank" id="rankSelect" class="user-create__select">
-		<form:option value="">선택</form:option>
-		<form:option value="사원">사원</form:option>
-		<form:option value="대리">대리</form:option>
-		<form:option value="과장">과장</form:option>
-		<form:option value="차장">차장</form:option>
-		<form:option value="부장">부장</form:option>
-		</form:select>
-		<form:errors path="rank" cssClass="user-create__error-message" cssStyle="color: red;" id="rankError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="rankSelect" class="user-create__label">직위:</label>
+				<form:select path="rank" id="rankSelect" class="user-create__select">
+				<form:option value="">선택</form:option>
+				<form:option value="사원">사원</form:option>
+				<form:option value="대리">대리</form:option>
+				<form:option value="과장">과장</form:option>
+				<form:option value="차장">차장</form:option>
+				<form:option value="부장">부장</form:option>
+				</form:select>
+				<form:errors path="rank" cssClass="user-create__error-message" cssStyle="color: red;" id="rankError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="departmentSelect" class="user-create__label">부서:</label>
-		<form:select path="department" id="departmentSelect" class="user-create__select">
-		<form:option value="">선택</form:option>
-		<form:option value="개발팀">개발팀</form:option>
-		<form:option value="영업팀">영업팀</form:option>
-		<form:option value="마케팅팀">마케팅팀</form:option>
-		<form:option value="인사팀">인사팀</form:option>
-		<form:option value="회계팀">회계팀</form:option>
-		</form:select>
-		<form:errors path="department" cssClass="user-create__error-message" cssStyle="color: red;" id="departmentError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="departmentSelect" class="user-create__label">부서:</label>
+				<form:select path="department" id="departmentSelect" class="user-create__select">
+				<form:option value="">선택</form:option>
+				<form:option value="개발팀">개발팀</form:option>
+				<form:option value="영업팀">영업팀</form:option>
+				<form:option value="마케팅팀">마케팅팀</form:option>
+				<form:option value="인사팀">인사팀</form:option>
+				<form:option value="회계팀">회계팀</form:option>
+				</form:select>
+				<form:errors path="department" cssClass="user-create__error-message" cssStyle="color: red;" id="departmentError" />
+			</div>
 
-	<div class="user-create__form-group">
-		<label for="birth" class="user-create__label">생년월일:</label>
-		<form:input path="birth" id="birth" type="date" class="user-create__input user-create__input--date"/>
-		<form:errors path="birth" cssClass="user-create__error-message" cssStyle="color: red;" id="birthError" />
-	</div>
+			<div class="user-create__form-group">
+				<label for="birth" class="user-create__label">생년월일:</label>
+				<form:input path="birth" id="birth" type="date" class="user-create__input user-create__input--date"/>
+				<form:errors path="birth" cssClass="user-create__error-message" cssStyle="color: red;" id="birthError" />
+			</div>
 
-	<div class="user-create__actions">
-		<button type="submit" class="user-create__button user-create__button--primary">저장</button>
+			<div class="user-create__actions">
+				<button type="submit" class="user-create__button user-create__button--primary">저장</button>
+			</div>
+			</form:form>
+		</div>
 	</div>
-	</form:form>
-</div>
 </body>
 </html>

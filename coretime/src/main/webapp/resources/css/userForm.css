@@ -1,12 +1,5 @@
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 .user-create {
+  margin: 0 auto;
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -24,8 +17,9 @@ body {
 
 .user-create__form-group {
   display: flex;
-  align-items: center;
+  align-items: center; /* 세로 중앙 정렬 */
   margin-bottom: 15px;
+  position: relative; /* 에러 메시지 위치 지정을 위해 필요할 수 있음 */
 }
 
 /* ==========================================================================
@@ -78,10 +72,10 @@ body {
 .user-create__error-message {
   color: red;
   font-size: 0.9em;
-  margin-left: 130px; /* 레이블 너비(120px) + 패딩(10px)만큼 들여쓰기 */
-  display: block; /* 블록으로 표시하여 줄바꿈 */
-  margin-top: 5px; /* 위쪽 여백 */
-  text-align: left;
+  margin-top: 0; /* 위쪽 여백을 0으로 설정 */
+  margin-bottom: 0; /* 아래쪽 여백도 0으로 설정 */
+  padding-left: 10px; /* 입력 필드와의 간격을 위해 왼쪽 패딩 추가 */
+  white-space: nowrap; /* 에러 메시지가 길어도 줄바꿈되지 않도록 */
 }
 
 /* ==========================================================================

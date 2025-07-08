@@ -11,7 +11,7 @@
 <title>아이디 찾기</title>
 </head>
 <body>
-        <h2>미친 아이디 찾기</h2>
+        <h2>아이디 찾기</h2>
 
         <form action= "/login/findIdByEmail" method= "post">
                 <label for= "email">이메일을 입력하세요</label>

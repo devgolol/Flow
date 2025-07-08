@@ -22,5 +22,9 @@ body {
 }
 .login-form__button {
   width: 400px;
-  height: 50px;
+}
+
+.login-form__error-message {
+  color: red;
+  text-align: center;
 }
