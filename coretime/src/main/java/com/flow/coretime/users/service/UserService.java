@@ -1,14 +1,15 @@
-<<<<<<< HEAD
 package com.flow.coretime.users.service;
-=======
-package com.flow.coretime.service;
->>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +18,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
+
 import com.flow.coretime.users.exception.UserAlreadyExistsException;
 import com.flow.coretime.users.mapper.UserMapper;
 import com.flow.coretime.users.model.User;
-=======
-import com.flow.coretime.exception.UserAlreadyExistsException;
-import com.flow.coretime.mapper.UserMapper;
-import com.flow.coretime.model.User;
->>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -35,17 +32,61 @@ public class UserService implements UserDetailsService {
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
 
+	@Value("${app.upload.profile-image-dir}")
+    	private String uploadDir;
+
 	public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder) {
 		this.userMapper = userMapper;
 		this.passwordEncoder = passwordEncoder;
 	}
+	
+	// find =============================
+	public PageInfo<User> findUsersWithPagination(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<User> userList = userMapper.findAllUsers();
 
-	public void insertUser(User user) {
+		return new PageInfo<>(userList);
+	}
 
+	public List<User> findAllUsers() {
+		return userMapper.findAllUsers();
+	}
+	
+	public User findById(String id)
+	{
+		User foundUser= userMapper.findById(id);
+		foundUser.setPassword(null);
+		return foundUser;
+	}
+	
+	
+	// insert=============================
+	public void insertUser(User user, String profileImagePath) {
 		if (userMapper.countById(user.getId()) > 0) {
-            // 비즈니스 규칙 위반이므로, 비즈니스 의미를 가진 커스텀 예외를 던집니다.
-            throw new UserAlreadyExistsException("이미 사용 중인 아이디입니다."); 
-        }
+            		throw new UserAlreadyExistsException("이미 사용 중인 아이디입니다."); 
+        	}
+		if (profileImagePath != null && !profileImagePath.isEmpty()) {
+			// 업로드 디렉토리가 없으면 생성
+			Path uploadPath = Paths.get(uploadDir);
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+
+			// 고유한 파일 이름 생성 (UUID 사용)
+			String originalFilename = profileImagePath.getOriginalFilename();
+			String fileExtension = "";
+			if (originalFilename != null && originalFilename.contains(".")) {
+				fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+			}
+			String newFilename = UUID.randomUUID().toString() + fileExtension;
+			Path filePath = uploadPath.resolve(newFilename);
+
+			// 파일 저장
+			Files.copy(profileImage.getInputStream(), filePath);
+
+			// User 객체에 이미지 경로 저장 (DB에 저장될 경로)
+			user.setProfileImagePath("/resources/upload/" + newFilename); // 웹 접근 경로
+		}
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setCreatedAt(LocalDate.now());
 		user.setUpdatedAt(LocalDate.now());
@@ -53,24 +94,22 @@ public class UserService implements UserDetailsService {
 		userMapper.insertUser(user);
 	}
 	
-	/**
-     * 페이지네이션된 사용자 목록을 가져옵니다.
-     * @param pageNum 요청 페이지 번호 (1부터 시작)
-     * @param pageSize 한 페이지에 보여줄 항목 수
-     * @return PageInfo 객체 (페이징 정보와 사용자 목록을 포함)
-     */
-    public PageInfo<User> findUsersWithPagination(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-
-        List<User> userList = userMapper.findAllUsers();
-
-        return new PageInfo<>(userList);
-    }
-
-	public List<User> findAllUsers() {
-		return userMapper.findAllUsers();
+	// update=============================
+	public void updateUserByExistingId(String existingId, User newUserInfo)
+	{
+		newUserInfo.setUpdatedAt(LocalDate.now());
+		userMapper.updateUserByExistingId(existingId, newUserInfo);
 	}
+	
 
+	
+
+	public void deleteUsersByIds(List<String> userIds) {
+		userMapper.deleteUsersByIds(userIds);
+	}
+	
+	
+	
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 		User user = userMapper.findById(id);
@@ -83,10 +122,6 @@ public class UserService implements UserDetailsService {
 				user.getPassword(), // 암호화된 비밀번호 (DB에서 가져온 그대로)
 				authorities // 사용자 권한 목록
 		);
-	}
-
-	public void deleteUsersByIds(List<String> userIds) {
-		userMapper.deleteUserByIds(userIds);
 	}
 
 }

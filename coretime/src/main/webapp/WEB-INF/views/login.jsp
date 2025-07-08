@@ -5,23 +5,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="<c:url value='/resources/css/login.css'/>" type="text/css">
+<title>로그인</title>
+<link rel="stylesheet" href='/resources/css/login.css' type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
 <body>
-    <h2 id= "loginTitle">로그인</h2>
-    <form id= "loginForm" action="<c:url value='/doLogin'/>" method="post">
-    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <label>아이디:</label>
-        <input type="text" name="username" /><br/>
+    <img class= "login__logo" src= "/resources/images/FlowLogo.png"/>
+    <form id= "login-form" action="<c:url value='/doLogin'/>" method="post">
+    	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
+        <div class="login-form__group form-floating mb-3">
+            <%-- <label for="username" class="login-form__label">아이디:</label>
+            <input type="text" id="username" name="username" class="login-form__input"/> --%>
+            <input type="text" class="form-control" name="username" placeholder="">
+            <label for="username">아이디</label>
+        </div>
 
-        <label>비밀번호:</label>
-        <input type="password" name="password" /><br/>
+        <div class="login-form__group form-floating mb-3"> 
+            <%-- <label for="password" class="login-form__label">비밀번호:</label>
+            <input type="password" id="password" name="password" class="login-form__input"/> --%>
+            <input type="password" class="form-control" name="password" placeholder="">
+            <label for="password">비밀번호</label>
+        </div>
 
-        <button type="submit">로그인</button>
-
+        <div class="login-form__button-group"> 
+            <button type="submit" class="login-form__button btn btn-primary btn-lg">로그인</button>
+            <a href="/login/findIdByEmail" class="login-form__button btn btn-primary btn-lg">아이디 찾기</a>
+        </div>
         <c:if test="${param.error != null}">
-            <p style="color: red;">아이디 또는 비밀번호가 틀렸습니다.</p>
+            <p class="login-form__error-message">아이디 또는 비밀번호가 틀렸습니다.</p>
         </c:if>
     </form>
 </body>

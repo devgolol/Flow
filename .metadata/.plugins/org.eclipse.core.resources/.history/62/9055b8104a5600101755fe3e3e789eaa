@@ -1,6 +1,0 @@
-package css;
-
-public class Snippet {
-	<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>" type="text/css">
-}
-

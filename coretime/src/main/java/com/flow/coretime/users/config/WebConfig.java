@@ -1,8 +1,6 @@
-<<<<<<< HEAD
+
 package com.flow.coretime.users.config;
-=======
-package com.flow.coretime.config;
->>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        // JSP 파일이 위치한 디렉토리의 접두사 (prefix) 설정
-        // 예: /WEB-INF/views/login.jsp
         resolver.setPrefix("/WEB-INF/views/");
-        // JSP 파일의 접미사 (suffix) 설정
         resolver.setSuffix(".jsp");
         return resolver;
     }

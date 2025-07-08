@@ -58,7 +58,7 @@
             <li><a href="/" class="${pageContext.request.requestURI eq '/' ? 'active' : ''}">홈</a></li>
             <li><a href="dashboard.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/dashboard.jsp' ? 'active' : ''}">대시보드</a></li>
             <li><a href="products.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/products.jsp' ? 'active' : ''}">제품 관리</a></li>
-            <li><a href="users" class="${pageContext.request.requestURI eq 'users' ? 'active' : ''}">사용자 관리</a></li>
+            <li><a href="/users" class="${pageContext.request.requestURI eq 'users' ? 'active' : ''}">사용자 관리</a></li>
             <li><a href="settings.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/settings.jsp' ? 'active' : ''}">설정</a></li>
             <li><a href="contact.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/contact.jsp' ? 'active' : ''}">문의하기</a></li>
         </ul>

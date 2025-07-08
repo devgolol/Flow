@@ -1,12 +1,8 @@
-<<<<<<< HEAD
+
 package com.flow.coretime.users.validation;
 
 import com.flow.coretime.users.model.User;
-=======
-package com.flow.coretime.validation;
 
-import com.flow.coretime.model.User;
->>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

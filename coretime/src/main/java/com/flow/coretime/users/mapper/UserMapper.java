@@ -1,17 +1,13 @@
-<<<<<<< HEAD
+
 package com.flow.coretime.users.mapper;
-=======
-package com.flow.coretime.mapper;
->>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-<<<<<<< HEAD
 import com.flow.coretime.users.model.User;
-=======
-import com.flow.coretime.model.User;
->>>>>>> d3784773a0a3902c70d05c36a88f9790ca5cbb26
+
 
 
 @Mapper 
@@ -25,7 +21,9 @@ public interface UserMapper {
 	
 	int countById(String id);
 
-	void deleteUserByIds(List<String> userIds);
+	void deleteUsersByIds(List<String> userIds);
+	
+	void updateUserByExistingId(@Param("existingId")String existingId, @Param("newUserInfo")User newUserInfo);
 
 //    // XML 매퍼 파일의 id="findById"와 매핑됩니다.
 //    Optional<User> findById(Long id);
