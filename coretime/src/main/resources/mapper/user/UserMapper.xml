@@ -4,7 +4,7 @@
 <mapper namespace="com.flow.coretime.users.mapper.UserMapper">
 
 	<select id="findById" resultType="com.flow.coretime.users.model.User">
-        SELECT ID, PASSWORD, ROLE
+        SELECT ID, PASSWORD, DEPARTMENT, ROLE
         FROM USERS
         WHERE ID = #{id}
     </select>

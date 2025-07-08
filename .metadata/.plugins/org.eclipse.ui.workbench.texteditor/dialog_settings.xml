@@ -4,6 +4,10 @@
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="true"/>
 		<list key="findhistory">
+			<item value="princ"/>
+			<item value="depar"/>
+			<item value="find"/>
+			<item value="findUserById"/>
 			<item value="com.flow.coretime.board.domain.Board"/>
 			<item value="mybatis.configuration.map-underscore-to-camel-case=true"/>
 			<item value="locations"/>
