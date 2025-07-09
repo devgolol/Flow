@@ -68,7 +68,7 @@ public class BoardController {
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("keyword", keyword);
 		
-		return "boards/combinedList";
+		return "combinedList";
 	}
 	
 	//게시글 상세 조회
@@ -86,7 +86,7 @@ public class BoardController {
 		}
 		model.addAttribute("isOwner", isOwner);
 		
-		return "boards/detail";
+		return "detail";
 	}
 	
 	//게시글 작성 폼
@@ -103,7 +103,7 @@ public class BoardController {
 		model.addAttribute("userRole", isAdmin ? "ROLE_ADMIN" : "ROLE_USER");
 		model.addAttribute("board", new Board());
 		
-		return "boards/writeForm";
+		return "writeForm";
 	}
 
 	//게시글 생성 처리	
@@ -149,7 +149,7 @@ public class BoardController {
 		}
 		
 		model.addAttribute("board",boardToEdit);
-		return "boards/editForm";
+		return "editForm";
 	}
 	
 	@PostMapping("/{id}/edit")
