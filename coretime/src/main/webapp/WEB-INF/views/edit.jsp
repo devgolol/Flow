@@ -109,13 +109,11 @@
 </script>
 </head>
 <body>
-	<div id="nav">
+	<div id="header">
 		<%@ include file="header.jsp"%>
 	</div>
 
 	<div class="main-content">
-
-
 		<div id="nav">
 			<%@ include file="leftNav.jsp"%>
 		</div>

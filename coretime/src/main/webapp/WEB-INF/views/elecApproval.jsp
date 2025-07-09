@@ -18,6 +18,16 @@
 </script>
 </head>
 <body>
-        <h1>전자결재</h1>
+        <div id="header">
+		<%@ include file="header.jsp"%>
+	</div>
+        <div class="content">
+		<div id="nav">
+			<%@ include file="leftNav.jsp"%>
+		</div>
+                <div id="main">
+			
+		</div>
+        </div>
 </body>
 </html>

@@ -9,8 +9,39 @@
         WHERE ID = #{id}
     </select>
 	<insert id="insertUser" parameterType="com.flow.coretime.users.model.User">
-        INSERT INTO USERS (NAME, ID, PASSWORD, EMAIL, TEL, RANK, DEPARTMENT, BIRTH, UPDATEDAT, CREATEDAT, ROLE, PROFILEIMAGEPATH)
-        VALUES (#{name}, #{id}, #{password}, #{email}, #{tel}, #{rank}, #{department}, #{birth}, #{updatedAt}, #{createdAt}, #{role}, #{profileImagePath})
+        INSERT INTO USERS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            NAME,
+            ID,
+            PASSWORD,
+            EMAIL,
+            TEL,
+            RANK,
+            DEPARTMENT,
+            BIRTH,
+            UPDATEDAT,
+            CREATEDAT,
+            ROLE,
+            <if test="profileImagePath != null and profileImagePath != ''">
+                PROFILEIMAGEPATH,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{name},
+            #{id},
+            #{password},
+            #{email},
+            #{tel},
+            #{rank},
+            #{department},
+            #{birth},
+            #{updatedAt},
+            #{createdAt},
+            #{role},
+            <if test="profileImagePath != null and profileImagePath != ''">
+                #{profileImagePath},
+            </if>
+        </trim>
     </insert>
     
     <select id="findAllUsers" resultType="com.flow.coretime.users.model.User">
