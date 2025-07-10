@@ -5,14 +5,19 @@
 	
 <mapper namespace="com.flow.coretime.board.mapper.BoardMapper">
 
-	<insert id="save" parameterType="com.flow.coretime.board.dto.Board">
-		INSERT INTO BOARD(
-			AUTHOR, EMAIL, DEPARTMENT_NAME, TITLE, CONTENT, BOARD_TYPE, ROLE
-		) VALUES (
-			#{author}, #{email}, #{departmentName}, #{title}, #{content}, #{boardType},
-			#{role}
-		)
-	</insert>
+<insert id="save" parameterType="com.flow.coretime.board.dto.Board">
+    INSERT INTO BOARD(
+        AUTHOR, EMAIL, DEPARTMENT_NAME, TITLE, CONTENT, BOARD_TYPE, ROLE
+    ) VALUES (
+        #{author}, 
+        #{email, jdbcType=VARCHAR}, 
+        #{departmentName, jdbcType=VARCHAR}, 
+        #{title}, 
+        #{content}, 
+        #{boardType},
+        #{role}
+    )
+</insert>
 	
 	<select id="findById" parameterType="long"
 	resultType="com.flow.coretime.board.dto.Board">
@@ -70,43 +75,26 @@
 	</update>
 	
 	<sql id="searchCondition">
-	
 		<where>
-		
-		<if test="boardType ! = null and boardType ! = ''">
-		
-			And Board_TYPE = #{boardType}
-		
-		</if>
-		
-		<if test="searchType ! = null and keyword ! = null and keyword ! = ''">
-		
-			<choose>
+            <!-- And를 자동으로 붙여주므로 And 키워드는 삭제 -->
+			<if test="boardType != null and boardType != ''">
+				BOARD_TYPE = #{boardType}
+			</if>
 			
-			<when test="searchType == 'title'">
-			
-				AND TITLE LIKE '%' || #{keyword} || '%'
-			
-			</when>
-			
-			<when test="searchType == 'content'">
-			
-				AND CONTENT LIKE '%' || #{keyword} || '%'
-			
-			</when>
-			
-			<when test="searchType == 'author'">
-			
-				AND AUTHOR LIKE '%' || #{keyword} || '%'
-			
-			</when>
-			
-			</choose>
-		
-		</if>
-		
+			<if test="searchType != null and keyword != null and keyword != ''">
+				<choose>
+					<when test="searchType == 'title'">
+						AND TITLE LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="searchType == 'content'">
+						AND CONTENT LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="searchType == 'author'">
+						AND AUTHOR LIKE '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
 		</where>
-	
 	</sql>
 	
 	<select id="findWithPaging" parameterType="map"
@@ -125,24 +113,29 @@
 			BOARD_TYPE,
 			ROLE
 		FROM
-			BOARD
-			
+			(
+				SELECT
+					b.*,
+					ROWNUM as rnum
+				FROM
+					(
+						SELECT * FROM BOARD
+						ORDER BY
+							CASE WHEN BOARD_TYPE = 'NOTICE' THEN 1 ELSE 2 END,
+							ID DESC
+					) b
+			)
 		<include refid="searchCondition"/>
-		
-		ORDER BY
-			ID DESC
 		OFFSET #{offset} ROWS
-		FETCH NEXT #{pageSize} ROWS ONLY>
+		FETCH NEXT #{pageSize} ROWS ONLY
 	</select>
 	
 	<select id="count" parameterType="map" resultType="int">
-	
 		SELECT
 			COUNT(*)
 		FROM
 			BOARD
 		<include refid="searchCondition"/>
-	
 	</select>
 	
 </mapper>

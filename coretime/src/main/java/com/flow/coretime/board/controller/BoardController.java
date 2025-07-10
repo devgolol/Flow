@@ -33,46 +33,44 @@ public class BoardController {
 	
 	@GetMapping
 	public String combinedBoardList(Model model,
-									@RequestParam(value = "page" , defaultValue = "1") int page,
-									@RequestParam(value = "searchType" , required = false) String searchType,
-									@RequestParam(value = "keyword" , required = false) String keyword) {
-		
-		// 1-1. 공지사항 목록 조회(상위 5개만 고정)
-		Map<String , Object> noticeParams = new HashMap<>();
-		noticeParams.put("boardType", "NOTICE");
-		noticeParams.put("offset", 0);
-		noticeParams.put("pageSize", 5);
-		List<Board> noticeList = boardService.getBoardList(noticeParams);
-		
-		// 1-2. 일반게시판 목록 조회 (페이징 및 검색 적용)
-		int pageSize = 10; //일반게시판은 페이지당 10개 보이게
-		int offset = (page -1)* pageSize;
-		
-		Map<String, Object> generalParams =new HashMap<>();
-		generalParams.put("boardType", "GENERAL");
-		generalParams.put("offset", offset);
-		generalParams.put("pageSize", pageSize);
-		generalParams.put("searchType", searchType);
-		generalParams.put("keyword", keyword);
-		List<Board> generalList = boardService.getBoardList(generalParams);
-		
-		// 1-3. 일반게시판 페이징을 위한 전체 개수 조회
-		int totalCount = boardService.getBoardCount(generalParams);
-		int totalPages = (int)Math.ceil((double) totalCount / pageSize);
-		
-		// 1-4. Model에 데이터 담기
-		model.addAttribute("noticeList", noticeList);
-		model.addAttribute("generalList", generalList);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("currentPage", page);
-		model.addAttribute("searchType", searchType);
-		model.addAttribute("keyword", keyword);
-		
-		return "combinedList";
+	                                @RequestParam(value = "page", defaultValue = "1") int page,
+	                                @RequestParam(value = "searchType", required = false) String searchType,
+	                                @RequestParam(value = "keyword", required = false) String keyword) {
+
+	    // 파라미터를 하나로 합쳐서 서비스 호출
+	    int pageSize = 15; // 한 페이지에 보여줄 전체 게시글 수 (공지 포함)
+	    int offset = (page - 1) * pageSize;
+
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("offset", offset);
+	    params.put("pageSize", pageSize);
+	    params.put("searchType", searchType);
+	    params.put("keyword", keyword);
+	    // boardType을 파라미터에서 제거하여 모든 글을 가져오도록 함
+
+	    List<Board> boardList = boardService.getBoardList(params);
+
+	    // 페이징을 위한 전체 개수 조회
+	    Map<String, Object> countParams = new HashMap<>();
+	    countParams.put("searchType", searchType);
+	    countParams.put("keyword", keyword);
+	    int totalCount = boardService.getBoardCount(countParams);
+	    int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+	    // Model에 데이터 담기
+	    model.addAttribute("boardList", boardList); // 이제 리스트는 하나만 필요
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("searchType", searchType);
+	    model.addAttribute("keyword", keyword);
+
+	    // JSP 파일 이름도 하나로 통일된 리스트를 보여주는 이름으로 변경하는 것이 좋음
+	    // 예: "boards/list"
+	    return "combinedList"; // 이 부분은 기존 JSP에 맞게 유지
 	}
 	
 	//게시글 상세 조회
-	@GetMapping("{/id}")
+	@GetMapping("/{id}")
 	public String boardDetail(@PathVariable("id")Long id, Model model, Principal principal) {
 		
 		Board board = boardService.getBoardDetail(id);

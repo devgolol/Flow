@@ -8,20 +8,11 @@
 <style>
     .left-nav {
         width: 200px;
-        /* float: left; */ /* Flexbox 또는 Grid를 사용하는 것을 권장합니다. */
-        background-color: #f8f9fa; /* 밝은 배경색 */
+        background-color: #f8f9fa;
         padding: 20px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* 그림자 효과 */
-        min-height: 100vh; /* 뷰포트 높이만큼 최소 높이 설정 (메인 페이지 레이아웃에 따라 조절) */
-        box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
-    }
-    .left-nav h3 {
-        color: #343a40;
-        margin-top: 0;
-        margin-bottom: 25px;
-        font-size: 1.3em;
-        border-bottom: 1px solid #dee2e6;
-        padding-bottom: 10px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        min-height: 100vh; 
+        box-sizing: border-box;
     }
     .left-nav ul {
         list-style: none; /* 목록 마커 제거 */
@@ -55,12 +46,12 @@
 <body>
 	<nav class="left-nav">
 		<ul>
-            <li><a href="/" class="${pageContext.request.requestURI eq '/' ? 'active' : ''}">홈</a></li>
+            <li><a href="/" class="${pageContext.request.requestURI eq '/WEB-INF/views/home.jsp' ? 'active' : ''}">홈</a></li>
             <li><a href="dashboard.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/dashboard.jsp' ? 'active' : ''}">대시보드</a></li>
-            <li><a href="products.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/products.jsp' ? 'active' : ''}">제품 관리</a></li>
-            <li><a href="users" class="${pageContext.request.requestURI eq 'users' ? 'active' : ''}">사용자 관리</a></li>
+            <li><a href="/elecApproval" class="${pageContext.request.requestURI eq '/WEB-INF/views/elecApproval.jsp' ? 'active' : ''}">전자 결재</a></li>
+            <li><a href="/users" class="${pageContext.request.requestURI eq '/WEB-INF/views/users.jsp' ? 'active' : ''}">사용자 관리</a></li>
             <li><a href="settings.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/settings.jsp' ? 'active' : ''}">설정</a></li>
-            <li><a href="contact.jsp" class="${pageContext.request.requestURI eq '/YourWebAppName/contact.jsp' ? 'active' : ''}">문의하기</a></li>
+            <li><a href="/boards" class="${pageContext.request.requestURI eq '/WEB-INF/views/combinedList.jsp' ? 'active' : ''}">게시판</a></li>
         </ul>
 	</nav>
 </body>

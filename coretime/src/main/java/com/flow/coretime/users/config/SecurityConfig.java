@@ -1,4 +1,5 @@
 
+
 package com.flow.coretime.users.config;
 
 
@@ -13,28 +14,29 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 	
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
+    	public PasswordEncoder passwordEncoder() {
+        	return new BCryptPasswordEncoder();
+    	}
+
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf().disable()
 				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers("/login", "doLogin").permitAll()
+						.requestMatchers("/login", "/doLogin", "/login/findIdByEmail", "/error").permitAll()
 						.requestMatchers("/WEB-INF/**").permitAll() 
 						.requestMatchers("/resources/**").permitAll()
 						.anyRequest().authenticated()
 				)
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
-					    .loginProcessingUrl("/doLogin")
-					    .usernameParameter("username")
-					    .passwordParameter("password")
-					    .defaultSuccessUrl("/", true)
-					    .failureUrl("/login?error=true")
-					    .permitAll()
+					    	.loginProcessingUrl("/doLogin")
+					    	.usernameParameter("username")
+					    	.passwordParameter("password")
+					    	.defaultSuccessUrl("/", true)
+					    	.failureUrl("/login?error=true")
+					    	.permitAll()
 				)
 				.logout(logout -> logout
 						.logoutUrl("/logout")

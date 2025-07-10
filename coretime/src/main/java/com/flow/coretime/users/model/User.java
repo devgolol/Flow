@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 import com.flow.coretime.users.validation.PasswordMatches;
 
 
@@ -51,6 +52,6 @@ public class User {
 
     private LocalDate createdAt;
     private LocalDate updatedAt;
-    private String role;// DB의 ROLES (예: "USER")
-    // Getters and Setters
+    private String role;
+    private String profileImagePath;
 }
