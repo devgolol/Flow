@@ -1,7 +1,6 @@
 
 package com.flow.coretime.users.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc; // 이 어노테이션이 필요할 수 있습니다.
@@ -19,8 +18,11 @@ public class WebConfig implements WebMvcConfigurer {
         // 실제 src/main/webapp/resources/ 디렉토리에서 파일을 찾도록 매핑합니다.
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("/js/");
     }
-    
+
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
