@@ -242,7 +242,15 @@
                 </tr>
             </tbody>
         </table>
-
+        <c:if test="${currentUser.id eq currentApproverId and (documentDetail.status eq 'PENDING' or documentDetail.status eq 'IN_PROGRESS')}">
+            <div class="approval-actions">
+                <textarea id="approvalComment" placeholder="결재 의견을 입력하세요 (반려 시 필수)"></textarea>
+                <div class="approval-buttons">
+                    <button class="btn-approve" onclick="submitApproval(${documentDetail.docId}, 'APPROVED')">승인</button>
+                    <button class="btn-reject" onclick="submitApproval(${documentDetail.docId}, 'REJECTED')">반려</button>
+                </div>
+            </div>
+        </c:if>
         <div class="form-actions">
             <button type="button" class="cancel-button" onclick="history.back()">목록으로 돌아가기</button>
             <%-- 문서 수정/결재/반려 등 액션 버튼은 여기에 추가 --%>
@@ -285,6 +293,47 @@
                 console.log("json_content가 비어있습니다.");
             }
         });
+        // 결재 승인/반려 요청을 보낼 JavaScript 함수
+        function submitApproval(docId, action) {
+            const comment = document.getElementById('approvalComment').value;
+            console.log("action: ", action);
+            if (action === 'REJECTED' && comment.trim() === '') {
+                alert('반려 시에는 반드시 의견을 입력해야 합니다.');
+                return;
+            }
+            if(action== "APPROVED"){
+                confirm("승인하시겠습니까?");
+            }
+            else{
+                confirm("반려하시겠습니까?");
+                return;
+            }
+
+            fetch(`/elecApproval/approval/${docId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // CSRF 토큰이 필요하다면 여기에 추가 (예시: Spring Security CSRF)
+                    // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf_token"]').content
+                },
+                body: JSON.stringify({ action: action, comment: comment })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // 서버에서 에러 응답 (4xx, 5xx)이 왔을 경우
+                    return response.json().then(error => { throw new Error(error.message || '승인/반려 처리 중 오류가 발생했습니다.'); });
+                }
+                return response.json(); // 성공 응답을 JSON으로 파싱
+            })
+            .then(data => {
+                alert(data.message); // 서버로부터 받은 메시지 (예: "결재가 승인되었습니다.")
+                window.location.href = '/elecApproval'; // 결재 목록 페이지로 리다이렉트 (메인 대시보드)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('요청 처리 중 오류가 발생했습니다: ' + error.message);
+            });
+        }
     </script>
 </body>
 </html>

@@ -16,4 +16,6 @@ public interface ElecApprovalMapper {
         void insertDocument(Document document);
 
         Document getDocumentById(@Param("docId") int docId);
+
+        void updateDocumentStatus(Document document);
 }

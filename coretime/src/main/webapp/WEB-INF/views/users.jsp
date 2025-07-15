@@ -60,12 +60,13 @@
                     <c:if test="${empty userList}">
                         <p>등록된 사용자가 없습니다.</p>
                     </c:if>
-
                     <c:if test="${not empty userList}">
-                        <div>
-                            <button onclick="location.href='/users/new'">신규 유저 생성</button>
-                            <button id="deleteSelectedUsersBtn">유저 삭제</button>
-                        </div>
+                        <c:if test="${currentUserAuthority eq 'ROLE_ADMIN'}">
+                            <div>
+                                <button onclick="location.href='/users/new'">신규 유저 생성</button>
+                                <button id="deleteSelectedUsersBtn">유저 삭제</button>
+                            </div>
+                        </c:if>
 
                         <table id="userTable" style="width:100%">
                             <thead>

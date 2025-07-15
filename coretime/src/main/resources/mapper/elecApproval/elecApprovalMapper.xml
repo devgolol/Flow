@@ -60,7 +60,14 @@
         <!-- 만약 DDL에 있다면 여기에 추가해야 합니다. -->
     )
     </insert>
-
+    <update id="updateDocumentStatus" parameterType="com.flow.coretime.elecApproval.model.Document">
+        UPDATE DOCUMENTS
+        SET
+            STATUS = #{status, jdbcType=VARCHAR},
+            UPDATED_AT = #{updatedAt, jdbcType=TIMESTAMP}
+        WHERE
+            DOC_ID = #{docId}
+    </update>
     <select id="findPendingApprovalsByApproverId" resultMap="documentResultMap">
         SELECT
             D.DOC_ID,
@@ -89,27 +96,20 @@
 
     <select id="findInProgressDocumentsByInitiatorId" resultMap="documentResultMap">
         SELECT
-            D.DOC_ID,
-            D.DOC_TYPE,
-            D.TITLE,
-            D.STATUS,
-            D.INITIATOR_ID,
-            D.DRAFT_DATE,
-            D.JSON_CONTENT,
-            D.UPDATED_AT,
-            (SELECT U_APPROVER.NAME
-             FROM APPROVAL_HISTORY AH_INNER
-             JOIN USERS U_APPROVER ON AH_INNER.APPROVER_ID = U_APPROVER.ID
-             WHERE AH_INNER.DOC_ID = D.DOC_ID
-               AND AH_INNER.ACTION = 'PENDING'
-             ORDER BY AH_INNER.APPROVAL_ORDER ASC
-             FETCH FIRST 1 ROWS ONLY) AS CURRENT_APPROVER_NAME
+        D.DOC_ID,
+        D.DOC_TYPE,
+        D.TITLE,
+        D.STATUS,
+        D.INITIATOR_ID,
+        D.DRAFT_DATE,
+        D.JSON_CONTENT,
+        D.UPDATED_AT
         FROM
-            DOCUMENTS D
-        WHERE
-            D.INITIATOR_ID = #{initiatorId}
-            AND D.STATUS IN ('PENDING', 'IN_PROGRESS') 
-        ORDER BY
-            D.DRAFT_DATE DESC
+        DOCUMENTS D
+    WHERE
+        D.INITIATOR_ID = #{initiatorId}
+        AND D.STATUS IN ('PENDING', 'IN_PROGRESS') 
+    ORDER BY
+        D.DRAFT_DATE DESC
     </select>
 </mapper>

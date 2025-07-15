@@ -147,10 +147,6 @@
         color: white;
         border: none;
     }
-
-
-
-    
 </style>
 
 
@@ -168,10 +164,6 @@
 
             <div class="action-buttons">
                 <button onclick="openFormSelectionModal()">새 결재 진행</button>
-                <button onclick="location.href='/documents/my'">내 기안 문서함</button>
-                <button onclick="location.href='/approvals/pending'">결재 대기 문서함</button>
-                <button onclick="location.href='/approvals/history'">결재 완료 문서함</button>
-                <button onclick="location.href='/logout'">로그아웃</button>
             </div>
 
             <h2>나의 결재 대기 문서</h2>
@@ -197,13 +189,13 @@
                             <c:forEach var="doc" items="${pendingApprovals}">
                                 <tr>
                                     <td>${doc.docId}</td>
-                                    <td>${doc.title}</td>
+                                    <td><a href= "elecApproval/detail/${doc.getDocId()}">${doc.title}</a></td>
                                     <td>${doc.docType}</td>
-                                    <td>${doc.initiatorId}</td> <%-- 기안자 이름: USERS.NAME --%>
-                                    <td>${doc.initiatorDepartment}</td> <%-- 기안자 소속: USERS.DEPARTMENT --%>
+                                    <td>${doc.initiatorName}</td>
+                                    <td>${doc.initiatorDepartment}</td>
                                     <td><fmt:formatDate value="${doc.draftDate}" pattern="yyyy-MM-dd HH:mm"/></td>
                                     <td><span class="status-badge status-${doc.status}">${doc.status}</span></td>
-                                    <td><button onclick="location.href='/approvals/detail/${doc.docId}'">결재하기</button></td>
+                                    <td><button onclick="quickApprove(${doc.getDocId()})">바로결재</button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -222,6 +214,7 @@
                         <table id= "inProgressDocsTable" class= "data-table">
                             <thead>
                                 <tr class="data-table__row">
+                                        <th class="data-table__header-cell">문서 아이디</th>
                                         <th class="data-table__header-cell">기안일</th>	
                                         <th class="data-table__header-cell">결재양식</th>
                                         <th class="data-table__header-cell">제목</th>
@@ -231,6 +224,7 @@
                             <tbody>
                                 <c:forEach var="doc" items="${myInProgressDocs}">
                                     <tr>
+                                        <td>${doc.docId}</td>
                                         <td><fmt:formatDate value="${doc.draftDate}" pattern="yyyy-MM-dd HH:mm"/></td>
                                         <td>${doc.docType}</td>
                                         <td><a href= "elecApproval/detail/${doc.getDocId()}">${doc.title}</a></td>
@@ -257,6 +251,41 @@
     </div>
     <%@ include file="/WEB-INF/modals/formSelectionModal.jsp"%>
     <script type="text/javascript" src="/js/elecApprovalModal.js"></script>
+    <script>
+        function quickApprove(docId){
+            if(!confirm("바로 승인하시겠습니까?")){
+                return;
+            }
+            console.log("docId: ", docId);
+            fetch("elecApproval/approval/"+docId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf_token"]').content
+                },
+                body: JSON.stringify({
+                    action: 'APPROVED',
+                    comment: '바로 승인'
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // 서버에서 4xx, 5xx 에러 응답 시
+                    return response.json().then(error => { throw new Error(error.message || '요청 처리 중 오류가 발생했습니다.'); });
+                }
+                return response.json(); // 성공 응답을 JSON으로 파싱
+            })
+            .then(data => {
+                alert(data.message); // 서버로부터 받은 메시지 (예: "결재가 승인되었습니다.")
+                window.location.reload(); // 페이지 새로고침하여 목록 업데이트
+                // 또는 window.location.href = '/elecApproval'; // 메인 대시보드로 이동
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('승인 처리 중 오류가 발생했습니다: ' + error.message);
+            });
+        }
+    </script>
         
     
 </body>

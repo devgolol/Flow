@@ -16,6 +16,8 @@ public class Document {
 
         // JOIN
         private String initiatorId;
+        private String initiatorName;
+        private String initiatorRank;
         private String initiatorDepartment;
 
         // APPROVAL_HISTORY와 USERS 테이블을 JOIN하여 가져올 현재 결재자 정보
