@@ -25,6 +25,8 @@
         <header class= "header">
 		<form class= "header__logout" action="/logout" method="post">
 			<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
+			<span>${currentUserAuthority}</span>
+			<span>${currentUserId}</span>
 			<button type="submit">로그아웃</button>
 		</form>
 	</header>

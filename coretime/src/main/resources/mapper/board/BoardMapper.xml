@@ -5,7 +5,8 @@
 	
 <mapper namespace="com.flow.coretime.board.mapper.BoardMapper">
 
-<insert id="save" parameterType="com.flow.coretime.board.dto.Board">
+<insert id="save" parameterType="com.flow.coretime.board.dto.Board"
+	useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
     INSERT INTO BOARD(
         AUTHOR, EMAIL, DEPARTMENT_NAME, TITLE, CONTENT, BOARD_TYPE, ROLE
     ) VALUES (
