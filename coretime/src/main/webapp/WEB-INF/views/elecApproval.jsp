@@ -165,43 +165,44 @@
             <div class="action-buttons">
                 <button onclick="openFormSelectionModal()">새 결재 진행</button>
             </div>
-
-            <h2>나의 결재 대기 문서</h2>
-            <div class="pending-approvals">
-                <c:if test="${empty pendingApprovals}">
-                    <p class="no-data">현재 결재 대기 중인 문서가 없습니다.</p>
-                </c:if>
-                <c:if test="${not empty pendingApprovals}">
-                    <table id= "pendingApprovalsTable">
-                        <thead>
-                            <tr>
-                                <th>문서 ID</th>
-                                <th>제목</th>
-                                <th>결재양식</th>
-                                <th>기안자</th>
-                                <th>소속</th>
-                                <th>기안일</th>
-                                <th>상태</th>
-                                <th>액션</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="doc" items="${pendingApprovals}">
+            <c:if test="${currentUserAuthority eq 'ROLE_ADMIN'}">
+                <h2>나의 결재 대기 문서</h2>
+                <div class="pending-approvals">
+                    <c:if test="${empty pendingApprovals}">
+                        <p class="no-data">현재 결재 대기 중인 문서가 없습니다.</p>
+                    </c:if>
+                    <c:if test="${not empty pendingApprovals}">
+                        <table id= "pendingApprovalsTable">
+                            <thead>
                                 <tr>
-                                    <td>${doc.docId}</td>
-                                    <td><a href= "elecApproval/detail/${doc.getDocId()}">${doc.title}</a></td>
-                                    <td>${doc.docType}</td>
-                                    <td>${doc.initiatorName}</td>
-                                    <td>${doc.initiatorDepartment}</td>
-                                    <td><fmt:formatDate value="${doc.draftDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                    <td><span class="status-badge status-${doc.status}">${doc.status}</span></td>
-                                    <td><button onclick="quickApprove(${doc.getDocId()})">바로결재</button></td>
+                                    <th>문서 ID</th>
+                                    <th>제목</th>
+                                    <th>결재양식</th>
+                                    <th>기안자</th>
+                                    <th>소속</th>
+                                    <th>기안일</th>
+                                    <th>상태</th>
+                                    <th>액션</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:if>
-            </div>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="doc" items="${pendingApprovals}">
+                                    <tr>
+                                        <td>${doc.docId}</td>
+                                        <td><a href= "elecApproval/detail/${doc.getDocId()}">${doc.title}</a></td>
+                                        <td>${doc.docType}</td>
+                                        <td>${doc.initiatorName}</td>
+                                        <td>${doc.initiatorDepartment}</td>
+                                        <td><fmt:formatDate value="${doc.draftDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                        <td><span class="status-badge status-${doc.status}">${doc.status}</span></td>
+                                        <td><button onclick="quickApprove(${doc.getDocId()})">바로결재</button></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:if>
+                </div>
+            </c:if>
 
 
             <div class= "section">
