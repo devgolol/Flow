@@ -215,7 +215,7 @@
                 <textarea id="approvalComment" placeholder="결재 의견을 입력하세요 (반려 시 필수)"></textarea>
                 <div class="approval-buttons">
                     <button class="btn-approve" onclick="submitApproval(${documentDetail.docId}, 'APPROVED')">승인</button>
-                    <button class="btn-reject" onclick="submitApproval(${documentDetail.docId}, 'REJECTED')">반려</button>
+                <%--<button class="btn-reject" onclick="submitApproval(${documentDetail.docId}, 'REJECTED')">반려</button> --%>
                 </div>
             </div>
         </c:if>
