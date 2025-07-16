@@ -115,49 +115,6 @@
 <body>
     <div class="container">
         <h1>전자결재 상세 보기</h1>
-
-        <%-- <div class="form-section-title">문서 기본 정보</div> --%>
-        <%-- <table>
-            <colgroup>
-                <col style="width: 120px;">
-                <col style="width: auto;">
-            </colgroup>
-            <tbody>
-                <tr>
-                    <th>문서 ID</th>
-                    <td class="read-only-field">${documentDetail.docId}</td>
-                </tr>
-                <tr>
-                    <th>결재 양식</th>
-                    <td class="read-only-field">${documentDetail.docType}</td>
-                </tr>
-                <tr>
-                    <th>제목</th>
-                    <td class="read-only-field">${documentDetail.title}</td>
-                </tr>
-                <tr>
-                    <th>결재 상태</th>
-                    <td class="read-only-field">${documentDetail.status}</td>
-                </tr>
-                <tr>
-                    <th>기안자 ID</th>
-                    <td class="read-only-field">${documentDetail.initiatorId}</td>
-                </tr>
-                <tr>
-                    <th>기안자 부서</th>
-                    <td class="read-only-field">${documentDetail.initiatorDepartment}</td>
-                </tr>
-                <tr>
-                    <th>기안일</th>
-                    <td class="read-only-field">${formattedDetailDraftDate}</td>
-                </tr>
-                <tr>
-                    <th>최종 수정일</th>
-                    <td class="read-only-field">${formattedDetailUpdatedAt}</td>
-                </tr>
-            </tbody>
-        </table> --%>
-
         <div class="form-section-title">결재선</div>
         <table class="approval-line">
             <tbody>
@@ -174,12 +131,12 @@
                     </td>
                     <%-- 실제 결재선은 반복문으로 동적으로 생성되어야 합니다 --%>
                     <th>승인</th>
-                    <td>
+                    <%-- <td>
                         <table class="approval-sub-table">
                             <tbody>
                                 <tr><td>대리</td></tr>
                                 <tr><td>장바로</td></tr>
-                                <tr><td class="approval-date"></td></tr> <%-- 승인일 --%>
+                                <tr><td class="approval-date"></td></tr>
                             </tbody>
                         </table>
                     </td>
@@ -200,7 +157,18 @@
                                 <tr><td class="approval-date"></td></tr>
                             </tbody>
                         </table>
-                    </td>
+                    </td> --%>
+                    <c:forEach var="approvalHistory" items="${approvalHistories}">
+                        <td>
+                            <table class="approval-sub-table">
+                                <tbody>
+                                    <tr><td>${approvalHistory.getApproverRank()}</td></tr>
+                                    <tr><td>${approvalHistory.getApproverName()}</td></tr>
+                                    <tr><td class="approval-date"></td></tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </c:forEach>
                 </tr>
             </tbody>
         </table>

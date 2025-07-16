@@ -28,6 +28,10 @@ import com.flow.coretime.elecApproval.service.ElecApprovalService;
 import com.flow.coretime.users.model.User;
 import com.flow.coretime.users.service.UserService;
 
+// (POST, /new), 문서등록과 함께 elecApprovalHistory도 같이 등록됨
+// (GET, /detail), 결재자이면 승인버튼 보임
+// (GET, /), admin은 결재대기 테이블 보임
+// (POST, /approval), 결재하기
 @Controller
 @RequestMapping("/elecApproval")
 public class ElecApprovalController {
@@ -108,8 +112,7 @@ public class ElecApprovalController {
                 if (initiatorUser != null) {
                         documentDetail.setInitiatorName(initiatorUser.getName());
                         documentDetail.setInitiatorDepartment(initiatorUser.getDepartment());
-                        // 필요하다면 initiatorUser.getRank() 등도 Document 모델에 추가하여 JSP로 전달
-                        documentDetail.setInitiatorRank(initiatorUser.getRank()); // Document 모델에 initiatorRank 필드 추가 필요
+                        documentDetail.setInitiatorRank(initiatorUser.getRank());
                 }
 
                 // 2. 현재 로그인한 사용자가 이 문서의 현재 결재자인지 확인 (JSP의 조건부 렌더링에 사용)

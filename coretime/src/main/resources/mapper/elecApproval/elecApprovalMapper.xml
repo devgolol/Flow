@@ -88,8 +88,7 @@
             USERS U_INITIATOR ON D.INITIATOR_ID = U_INITIATOR.ID
         WHERE
             AH.APPROVER_ID = #{approverId}
-            AND AH.ACTION = 'PENDING' 
-            AND D.STATUS IN ('PENDING', 'IN_PROGRESS') 
+            AND AH.ACTION = 'PENDING'
         ORDER BY
             D.DRAFT_DATE DESC
     </select>

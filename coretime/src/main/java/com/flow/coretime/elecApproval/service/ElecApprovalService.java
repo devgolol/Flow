@@ -24,10 +24,12 @@ public class ElecApprovalService {
                 this.elecApprovalHistoryMapper = elecApprovalHistoryMapper;
         }
 
+        // 수신자(admin)의 결재대기 목록
         public List<Document> getPendingApprovals(String userId) {
                 return elecApprovalMapper.findPendingApprovalsByApproverId(userId);
         }
 
+        // 송신자(user)의 결재대기 목록
         public List<Document> getMyInProgressDocuments(String userId) {
                 return elecApprovalMapper.findInProgressDocumentsByInitiatorId(userId);
         }
@@ -36,6 +38,7 @@ public class ElecApprovalService {
                 elecApprovalMapper.insertDocument(document);
         }
 
+        // 전자결재 등록하기
         @Transactional
         public void createDocumentAndInitialApproval(Document document, String initialApproverId) {
                 elecApprovalMapper.insertDocument(document); // 문서 저장 (docId가 생성됨)
@@ -79,6 +82,7 @@ public class ElecApprovalService {
                 return elecApprovalHistoryMapper.findApprovalHistoryByDocId(docId);
         }
 
+        // 결재하기
         @Transactional
         public void processApproval(int docId, String approverId, String action, String comment) {
                 Document document = elecApprovalMapper.getDocumentById(docId);
