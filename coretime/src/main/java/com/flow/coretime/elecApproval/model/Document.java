@@ -10,7 +10,9 @@ public class Document {
         private int docId;
         private String docType;
         private String title;
-        private String status; // Rejected: 반려된, Pending: 결제 대기중
+        private String status; // (PENDING, 첫번째 결재자의 승인 대기중), (IN_PROGRESS, 첫 번째 결재자의 승인을 받았고, 다음 결재자의 승인을 기다리고
+                               // 있는 상태)
+                               // REJECTED: 반려됨, APPROVED: 승인됨
         private Date draftDate;
         private String jsonContent;
         private Date updatedAt;

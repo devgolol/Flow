@@ -107,7 +107,7 @@
         FROM
             APPROVAL_HISTORY AH
         JOIN
-            USERS U ON AH.APPROVER_ID = U.ID
+            USERS U ON AH.APPROVER_ID = U.ID <!--결재자의 이름, 직급 가져오기 위함-->
         WHERE
             AH.DOC_ID = #{docId}
         ORDER BY

@@ -110,6 +110,21 @@
         border-bottom: 1px solid #ddd;
         color: #007bff;
     }
+
+    .approval{
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        padding: 15px;
+        width: 100%;
+        background-color: #f5f5f5;
+    }
+
+    .approval__comment{
+        width: 60%;
+        margin-bottom: 15px;
+        
+    }
 </style>
 </head>
 <body>
@@ -211,11 +226,11 @@
             </tbody>
         </table>
         <c:if test="${currentUser.id eq currentApproverId and (documentDetail.status eq 'PENDING' or documentDetail.status eq 'IN_PROGRESS')}">
-            <div class="approval-actions">
-                <textarea id="approvalComment" placeholder="결재 의견을 입력하세요 (반려 시 필수)"></textarea>
-                <div class="approval-buttons">
-                    <button class="btn-approve" onclick="submitApproval(${documentDetail.docId}, 'APPROVED')">승인</button>
-                <%--<button class="btn-reject" onclick="submitApproval(${documentDetail.docId}, 'REJECTED')">반려</button> --%>
+            <div class="approval">
+                <textarea class= "approval__comment"id="approvalComment" placeholder="결재 의견을 입력하세요 (반려 시 필수)"></textarea>
+                <div class="approval__buttons">
+                    <button class="btn btn-outline-secondary btn-approve" onclick="submitApproval(${documentDetail.docId}, 'APPROVED')">승인</button>
+                    <button class="btn btn-outline-secondary btn-reject" onclick="submitApproval(${documentDetail.docId}, 'REJECTED')">반려</button>
                 </div>
             </div>
         </c:if>
@@ -225,7 +240,7 @@
             <%-- 예: <button type="button" class="submit-button">결재</button> --%>
         </div>
     </div>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 서버에서 전달받은 documentDetail 객체의 jsonContent 값을 가져옴
@@ -274,14 +289,12 @@
             }
             else{
                 confirm("반려하시겠습니까?");
-                return;
             }
 
-            fetch(`/elecApproval/approval/${docId}`, {
+            fetch("/elecApproval/approval/"+docId, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // CSRF 토큰이 필요하다면 여기에 추가 (예시: Spring Security CSRF)
                     // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf_token"]').content
                 },
                 body: JSON.stringify({ action: action, comment: comment })

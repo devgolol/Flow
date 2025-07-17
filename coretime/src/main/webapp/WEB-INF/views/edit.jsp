@@ -74,13 +74,20 @@
 .user-edit{
 	margin: 0 auto;
 }
+.user-edit__form-group{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .profile-image-section__preview{
 	max-width: 300px;
+	min-width: 100px;
 }
 .profile-image-section__input{
 	display: none;
 }
 .profile-image-section__edit-button img{
+	text-align: center;
 	width: 30px;
 	height: auto;
 }

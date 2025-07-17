@@ -52,12 +52,17 @@ public class UserController {
 	public String showUserList(Model model) {
 		List<User> userList = userService.findAllUsers(); // 서비스에서 모든 사용자 가져오기
 		model.addAttribute("userList", userList); // 모델에 리스트 추가
+
 		return "userList";
 	}
 
 	@GetMapping("/new")
-	public String showUserForm(Model model) {
+	public String showUserForm(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		model.addAttribute("user", new User());
+		model.addAttribute("currentUserId", userDetails.getUsername());
+		model.addAttribute("currentUserAuthority",
+				userDetails.getAuthorities().stream().findFirst().get().getAuthority().trim());
+
 		return "userForm";
 	}
 
@@ -103,9 +108,13 @@ public class UserController {
 	}
 
 	@GetMapping("/edit")
-	public String showEditUser(@RequestParam("existingId") String existingId, Model model) {
+	public String showEditUser(@AuthenticationPrincipal UserDetails userDetails,
+				@RequestParam("existingId") String existingId, Model model) {
 		User user = userService.findById(existingId);
 		model.addAttribute("user", user);
+		model.addAttribute("currentUserId", userDetails.getUsername());
+		model.addAttribute("currentUserAuthority",
+				userDetails.getAuthorities().stream().findFirst().get().getAuthority().trim());
 
 		return "edit";
 	}

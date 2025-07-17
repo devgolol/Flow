@@ -9,7 +9,8 @@ public class ElecApprovalHistory {
         private int docId;
         private String approverId;
         private int approvalOrder;
-        private String action; // PENDING, APPROVED, REJECTED, REVIEW
+        private String action; // (WAITING, 아직 차례가 아님), (PENDING, 내 차례인데 아직 처리 안 함)
+                               // (APPROVED, 승인됨), (REJECTED, 반려됨),
         private String commentText;
         private Date actionAt;
 

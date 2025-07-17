@@ -9,6 +9,7 @@
 
 .user-create__image-preview {
   margin: auto;
+  width: 100px;
 }
 .user-create__title {
   text-align: center;

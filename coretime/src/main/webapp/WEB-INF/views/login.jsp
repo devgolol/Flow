@@ -14,15 +14,11 @@
     <form id= "login-form" action="<c:url value='/doLogin'/>" method="post">
     	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
         <div class="login-form__group form-floating mb-3">
-            <%-- <label for="username" class="login-form__label">아이디:</label>
-            <input type="text" id="username" name="username" class="login-form__input"/> --%>
             <input type="text" class="form-control" name="username" placeholder="">
             <label for="username">아이디</label>
         </div>
 
         <div class="login-form__group form-floating mb-3"> 
-            <%-- <label for="password" class="login-form__label">비밀번호:</label>
-            <input type="password" id="password" name="password" class="login-form__input"/> --%>
             <input type="password" class="form-control" name="password" placeholder="">
             <label for="password">비밀번호</label>
         </div>

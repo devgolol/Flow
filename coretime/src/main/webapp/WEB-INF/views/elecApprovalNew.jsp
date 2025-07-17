@@ -54,7 +54,7 @@
 
             <div class="form-group">
                 <label for="contactInfo">비상 연락처:</label>
-                <input type="tel" id="contactInfo" name="contactInfo" placeholder="예: 010-1234-5678" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+                <input type="tel" id="contactInfo" name="contactInfo" placeholder="예: 010-1234-5678" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"/>
             </div>
 
             <input type="hidden" id="jsonContent" name="jsonContent">

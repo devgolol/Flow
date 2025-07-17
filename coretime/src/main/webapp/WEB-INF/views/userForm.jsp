@@ -208,7 +208,7 @@
 			<form:form modelAttribute="user" method="post" action="/users/insert"
 			onsubmit="return validateForm(event)" enctype="multipart/form-data" class="user-create__form">
 			<div class="user-create__form-group">
-				<img  id= "profileImagePreview" alt="프로필 이미지 미리보기" class="user-create__image-preview" />
+				<img  src= "/resources/images/person.svg" id= "profileImagePreview" alt="프로필 이미지 미리보기" class="user-create__image-preview" />
 			</div>
 			<div class="user-create__form-group">
 				<label for="profileImage" class="user-create__label">프로필 사진:</label>

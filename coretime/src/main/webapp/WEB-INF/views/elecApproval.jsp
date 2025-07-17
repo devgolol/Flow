@@ -217,7 +217,7 @@
                             </table>
                         </c:when>
                         <c:otherwise>
-                            <p class="no-data">현재 결재 대기 중인 문서가 없습니다.</p>
+                            <p class="no-data">결재할 문서가 없습니다.</p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -252,6 +252,39 @@
                     </c:when>
                     <c:otherwise>
                         <p class="no-data">현재 진행 중인 기안 문서가 없습니다.</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <div class="widget">
+                <h2>결재 승인된 문서</h2>
+                <c:choose>
+                    <c:when test="${not empty myApprovedDocs}">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>문서 ID</th>
+                                    <th>제목</th>
+                                    <th>기안일</th>
+                                    <th>결재양식</th>
+                                    <th>결재상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="doc" items="${myApprovedDocs}">
+                                    <tr>
+                                        <td>${doc.docId}</td>
+                                        <td><a href="elecApproval/detail/${doc.docId}">${doc.title}</a></td>
+                                        <td><fmt:formatDate value="${doc.draftDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                        <td>${doc.docType}</td>
+                                        <td><span class="status-badge status-${doc.status}">${doc.status}</span></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="no-data">완료된 문서가 없습니다.</p>
                     </c:otherwise>
                 </c:choose>
             </div>

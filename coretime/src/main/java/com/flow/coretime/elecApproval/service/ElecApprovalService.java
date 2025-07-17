@@ -24,14 +24,19 @@ public class ElecApprovalService {
                 this.elecApprovalHistoryMapper = elecApprovalHistoryMapper;
         }
 
-        // 수신자(admin)의 결재대기 목록
-        public List<Document> getPendingApprovals(String userId) {
-                return elecApprovalMapper.findPendingApprovalsByApproverId(userId);
+        // 수신자의 결재대기 목록
+        public List<Document> getPendingApprovals(String currentUserId) {
+                return elecApprovalMapper.findPendingApprovalsByApproverId(currentUserId);
         }
 
-        // 송신자(user)의 결재대기 목록
-        public List<Document> getMyInProgressDocuments(String userId) {
-                return elecApprovalMapper.findInProgressDocumentsByInitiatorId(userId);
+        // 상신자의 결재대기 목록
+        public List<Document> getMyInProgressDocs(String currentUserId) {
+                return elecApprovalMapper.findInProgressDocumentsByInitiatorId(currentUserId);
+        }
+
+        // 상신자의 결재승인 목록
+        public List<Document> getMyApprovedDocs(String currentUserId) {
+                return elecApprovalMapper.findApprovedDocumentsByInitiatorId(currentUserId);
         }
 
         public void createDocument(Document document) {

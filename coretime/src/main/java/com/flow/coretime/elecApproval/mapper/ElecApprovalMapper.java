@@ -18,4 +18,6 @@ public interface ElecApprovalMapper {
         Document getDocumentById(@Param("docId") int docId);
 
         void updateDocumentStatus(Document document);
+
+        List<Document> findApprovedDocumentsByInitiatorId(@Param("initiatorId") String initiatorId);
 }

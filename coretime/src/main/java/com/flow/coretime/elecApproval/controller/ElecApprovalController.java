@@ -35,6 +35,13 @@ import com.flow.coretime.users.service.UserService;
 @Controller
 @RequestMapping("/elecApproval")
 public class ElecApprovalController {
+
+        private static final String VACATION_REQUEST_FORM_TYPE = "vacationRequestForm";
+        private static final String DOC_TYPE_VACATION_REQUEST = "휴가신청";
+        private static final String DEFAULT_APPROVER_ID = "admin"; // 초기 결재자 ID
+        private static final String STATUS_APPROVED = "APPROVED";
+        private static final String STATUS_REJECTED = "REJECTED";
+
         private final ElecApprovalService elecApprovalService;
         private final UserService userService;
 
@@ -45,16 +52,19 @@ public class ElecApprovalController {
 
         @GetMapping
         public String showElecApproval(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-                model.addAttribute("currentUserId", userDetails.getUsername());
+                String currentUserId = userDetails.getUsername();
+                model.addAttribute("currentUserId", currentUserId);
                 model.addAttribute("currentUserAuthority",
                                 userDetails.getAuthorities().stream().findFirst().get().getAuthority().trim());
 
-                String currentUserId = userDetails.getUsername();
                 List<Document> pendingApprovals = elecApprovalService.getPendingApprovals(currentUserId);
                 model.addAttribute("pendingApprovals", pendingApprovals);
 
-                List<Document> myInProgressDocs = elecApprovalService.getMyInProgressDocuments(currentUserId);
+                List<Document> myInProgressDocs = elecApprovalService.getMyInProgressDocs(currentUserId);
                 model.addAttribute("myInProgressDocs", myInProgressDocs);
+
+                List<Document> myApprovedDocs = elecApprovalService.getMyApprovedDocs(currentUserId);
+                model.addAttribute("myApprovedDocs", myApprovedDocs);
 
                 return "elecApproval";
         }
@@ -100,33 +110,33 @@ public class ElecApprovalController {
         @GetMapping("/detail/{docId}")
         public String detailElecApproval(@PathVariable("docId") int docId,
                         @AuthenticationPrincipal UserDetails userDetails, Model model) {
-                Document documentDetail = elecApprovalService.getDocumentById(docId);
-                User currentUser = userService.findById(userDetails.getUsername());
 
+                Document documentDetail = elecApprovalService.getDocumentById(docId);
                 if (documentDetail == null) {
-                        return "redirect:/error/404"; // 문서가 없을 경우
+                        return "redirect:/error/404";
                 }
 
-                // 1. 상신자 정보 모델에 추가 (JSP에서 사용하기 위함)
+                User currentUser = userService.findById(userDetails.getUsername());
+                if (currentUser == null) {
+                        return "redirect:/error/invalidUser";
+                }
+                model.addAttribute("currentUser", currentUser);
+
                 User initiatorUser = userService.findById(documentDetail.getInitiatorId());
                 if (initiatorUser != null) {
                         documentDetail.setInitiatorName(initiatorUser.getName());
                         documentDetail.setInitiatorDepartment(initiatorUser.getDepartment());
                         documentDetail.setInitiatorRank(initiatorUser.getRank());
                 }
-
-                // 2. 현재 로그인한 사용자가 이 문서의 현재 결재자인지 확인 (JSP의 조건부 렌더링에 사용)
-                String currentApproverId = elecApprovalService.getCurrentApproverIdForDocument(docId);
-
                 model.addAttribute("documentDetail", documentDetail);
-                model.addAttribute("currentUser", currentUser);
-                model.addAttribute("currentApproverId", currentApproverId); // 현재 결재자 ID를 JSP로 전달
 
-                // 3. 결재선 정보를 가져와 모델에 추가
+                String currentApproverId = elecApprovalService.getCurrentApproverIdForDocument(docId);
+                model.addAttribute("currentApproverId", currentApproverId);
+
                 List<ElecApprovalHistory> approvalHistories = elecApprovalService
                                 .getApprovalHistoriesForDocument(docId);
 
-                // JSP에서 결재자 이름/직급을 보여주기 위해 User 정보 JOIN 또는 Service 호출
+                // 3. JSP에서 결재자 이름/직급을 보여주기 위해 User 정보 JOIN 또는 Service 호출
                 for (ElecApprovalHistory history : approvalHistories) {
                         User approverUser = userService.findById(history.getApproverId());
                         if (approverUser != null) {

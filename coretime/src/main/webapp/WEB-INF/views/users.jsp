@@ -63,8 +63,8 @@
                     <c:if test="${not empty userList}">
                         <c:if test="${currentUserAuthority eq 'ROLE_ADMIN'}">
                             <div>
-                                <button onclick="location.href='/users/new'">신규 유저 생성</button>
-                                <button id="deleteSelectedUsersBtn">유저 삭제</button>
+                                <button class="btn btn-outline-secondary" onclick="location.href='/users/new'">신규 유저 생성</button>
+                                <button class="btn btn-outline-secondary" id="deleteSelectedUsersBtn">유저 삭제</button>
                             </div>
                         </c:if>
 
@@ -163,13 +163,11 @@
                     })
                     const confirmDelete = confirm('선택된 유저를 정말 삭제하시겠습니까?');
 
-                    if (confirmDelete) { // 사용자가 "확인"을 눌렀을 경우에만 삭제 진행
+                    if (confirmDelete) {
                         fetch('/users/delete', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                // CSRF 토큰 사용 시 주석 해제:
-                                // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf_token"]').content
                             },
                             body: JSON.stringify({ ids: selectedIds })
                         })
@@ -192,6 +190,7 @@
                     }
                 });
             </script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
         </body>
 
         </html>`
