@@ -38,11 +38,14 @@ public class BoardController {
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "searchType", required = false) String searchType,
 			@RequestParam(value = "keyword", required = false) String keyword) {
+		// 헤더를 위한 사용자 정보 추가
 		model.addAttribute("currentUserId", userDetails.getUsername());
 		model.addAttribute("currentUserAuthority",
-				userDetails.getAuthorities().stream().findFirst().get().getAuthority().trim());
-		// 파라미터를 하나로 합쳐서 서비스 호출
-		int pageSize = 15; // 한 페이지에 보여줄 전체 게시글 수 (공지 포함)
+				userDetails.getAuthorities().stream()
+						.map(GrantedAuthority::getAuthority)
+						.findFirst().orElse("").replace("ROLE_", ""));
+
+		int pageSize = 15;
 		int offset = (page - 1) * pageSize;
 
 		Map<String, Object> params = new HashMap<>();
@@ -50,46 +53,40 @@ public class BoardController {
 		params.put("pageSize", pageSize);
 		params.put("searchType", searchType);
 		params.put("keyword", keyword);
-		// boardType을 파라미터에서 제거하여 모든 글을 가져오도록 함
 
 		List<Board> boardList = boardService.getBoardList(params);
 
-		// 페이징을 위한 전체 개수 조회
 		Map<String, Object> countParams = new HashMap<>();
 		countParams.put("searchType", searchType);
 		countParams.put("keyword", keyword);
 		int totalCount = boardService.getBoardCount(countParams);
 		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
-		// Model에 데이터 담기
-		model.addAttribute("boardList", boardList); // 이제 리스트는 하나만 필요
+		model.addAttribute("boardList", boardList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("keyword", keyword);
 
-		// JSP 파일 이름도 하나로 통일된 리스트를 보여주는 이름으로 변경하는 것이 좋음
-		// 예: "boards/list"
-		return "combinedList"; // 이 부분은 기존 JSP에 맞게 유지
+		return "combinedList";
 	}
 
-	// 게시글 상세 조회
 	@GetMapping("/{id}")
 	public String boardDetail(@AuthenticationPrincipal UserDetails userDetails, @PathVariable("id") Long id,
 			Model model, Principal principal) {
-
+		// 헤더를 위한 사용자 정보 추가
 		model.addAttribute("currentUserId", userDetails.getUsername());
 		model.addAttribute("currentUserAuthority",
-				userDetails.getAuthorities().stream().findFirst().get().getAuthority().trim());
+				userDetails.getAuthorities().stream()
+						.map(GrantedAuthority::getAuthority)
+						.findFirst().orElse("").replace("ROLE_", ""));
 
 		Board board = boardService.getBoardDetail(id);
 		model.addAttribute("board", board);
 
 		boolean isOwner = false;
-		if (principal != null) {
-			if (principal.getName().equals(board.getAuthor())) {
-				isOwner = true;
-			}
+		if (principal != null && principal.getName().equals(board.getAuthor())) {
+			isOwner = true;
 		}
 		model.addAttribute("isOwner", isOwner);
 
@@ -102,18 +99,24 @@ public class BoardController {
 		if (principal == null) {
 			return "redirect:/login";
 		}
-
+		
+		// [추가된 부분] header.jsp가 사용할 사용자 정보를 Model에 추가합니다.
 		Authentication authentication = (Authentication) principal;
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+		model.addAttribute("currentUserId", principal.getName());
+		model.addAttribute("currentUserAuthority", 
+				authentication.getAuthorities().stream()
+						.map(GrantedAuthority::getAuthority)
+						.findFirst().orElse("").replace("ROLE_", ""));
+		// [여기까지 추가]
 
+		// 기존 로직
+		boolean isAdmin = authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 		model.addAttribute("userRole", isAdmin ? "ROLE_ADMIN" : "ROLE_USER");
 		model.addAttribute("board", new Board());
 
 		return "writeForm";
 	}
 
-	// 게시글 생성 처리
 	@PostMapping("/write")
 	public String createBoard(@ModelAttribute Board board, Principal principal, RedirectAttributes rttr) {
 		if (principal == null) {
@@ -121,8 +124,7 @@ public class BoardController {
 		}
 
 		Authentication authentication = (Authentication) principal;
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+		boolean isAdmin = authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 		String userRole = isAdmin ? "ROLE_ADMIN,ROLE_USER" : "ROLE_USER";
 
 		if ("NOTICE".equals(board.getBoardType()) && !isAdmin) {
@@ -132,7 +134,6 @@ public class BoardController {
 
 		board.setAuthor(principal.getName());
 		board.setRole(userRole);
-
 		board.setDepartmentName(null);
 		board.setEmail(null);
 
@@ -147,15 +148,24 @@ public class BoardController {
 		if (principal == null) {
 			return "redirect:/login";
 		}
+		
+		// [추가된 부분] header.jsp가 사용할 사용자 정보를 Model에 추가합니다.
+		Authentication authentication = (Authentication) principal;
+		model.addAttribute("currentUserId", principal.getName());
+		model.addAttribute("currentUserAuthority", 
+				authentication.getAuthorities().stream()
+						.map(GrantedAuthority::getAuthority)
+						.findFirst().orElse("").replace("ROLE_", ""));
+		// [여기까지 추가]
 
+		// 기존 로직
 		Board boardToEdit = boardService.getBoardByIdForUpdate(id);
-
 		if (!Objects.equals(boardToEdit.getAuthor(), principal.getName())) {
 			rttr.addFlashAttribute("errorMessage", "수정 권한이 없습니다.");
 			return "redirect:/boards/" + id;
 		}
-
 		model.addAttribute("board", boardToEdit);
+		
 		return "editForm";
 	}
 
@@ -174,7 +184,6 @@ public class BoardController {
 
 		existingBoard.setTitle(board.getTitle());
 		existingBoard.setContent(board.getContent());
-
 		boardService.updateBoard(existingBoard);
 
 		rttr.addFlashAttribute("successMessage", "게시글이 성공적으로 수정되었습니다.");
@@ -198,5 +207,4 @@ public class BoardController {
 		rttr.addFlashAttribute("successMessage", "게시글이 성공적으로 삭제되었습니다.");
 		return "redirect:/boards";
 	}
-
 }

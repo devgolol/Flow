@@ -30,16 +30,38 @@
         .table thead th { background-color: #f2f2f2; }
         .table tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
         
-        /* ======================= 이 부분이 수정되었습니다 ======================= */
-        /* .notice-row 스타일을 삭제하여 노란색 배경 제거 */
         .badge { display: inline-block; padding: .35em .65em; font-size: .75em; font-weight: 700; line-height: 1; color: #212529; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25rem; background-color: #ffc107; }
-        /* ====================================================================== */
         
         .search-area, .pagination-area { display: flex; justify-content: center; margin-top: 20px; gap: 8px; }
         .pagination { display: flex; list-style: none; padding: 0; gap: 5px; }
         .pagination a { padding: 8px 12px; border: 1px solid #ddd; text-decoration: none; color: #007bff; }
         .pagination .active a { background-color: #007bff; color: white; border-color: #007bff; }
-        .btn { padding: 8px 16px; border-radius: 4px; cursor: pointer; text-decoration: none; border: 1px solid #007bff; background-color: #007bff; color: white; }
+        
+        /* ======================= 이 부분이 수정되었습니다 ======================= */
+        /* 캐시 문제를 피하기 위해 새로운 클래스 이름(.btn-blue)을 사용합니다. */
+        .btn-blue {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            
+            /* 눈에 띄는 파란색과 입체 효과 적용 */
+            background-color: #0d6efd; 
+            border: 1px solid #0d6efd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* 버튼에 마우스를 올렸을 때의 스타일 */
+        .btn-blue:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+        }
+        /* ====================================================================== */
+        
         .form-select, .form-control { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
         .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
         .alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
@@ -53,7 +75,8 @@
         <main class="main-content">
             <div class="page-header">
                 <h2>게시판</h2>
-                <a href="/boards/write" class="btn">글쓰기</a>
+                <!-- 버튼의 클래스를 .btn에서 .btn-blue로 변경 -->
+                <a href="/boards/write" class="btn-blue">글쓰기</a>
             </div>
 
             <c:if test="${not empty successMessage}"><div class="alert alert-success">${successMessage}</div></c:if>
@@ -70,8 +93,7 @@
                         <c:when test="${empty boardList}"><tr><td colspan="6">게시글이 없습니다.</td></tr></c:when>
                         <c:otherwise>
                             <c:forEach items="${boardList}" var="board">
-                                <!-- 이제 class에 .notice-row가 붙어도 아무 효과가 없습니다. -->
-                                <tr class="${board.boardType == 'NOTICE' ? 'notice-row' : ''}" onclick="location.href='/boards/${board.id}'">
+                                <tr onclick="location.href='/boards/${board.id}'">
                                     <td>${board.id}</td>
                                     <td>
                                         <c:if test="${board.boardType == 'NOTICE'}"><span class="badge">공지</span></c:if>
@@ -96,7 +118,8 @@
                         <option value="author" ${searchType == 'author' ? 'selected' : ''}>작성자</option>
                     </select>
                     <input type="text" name="keyword" class="form-control" style="width: 300px;" value="${keyword}" placeholder="검색어를 입력하세요">
-                    <button type="submit" class="btn">검색</button>
+                    <!-- 버튼의 클래스를 .btn에서 .btn-blue로 변경 -->
+                    <button type="submit" class="btn-blue">검색</button>
                 </form>
             </div>
 

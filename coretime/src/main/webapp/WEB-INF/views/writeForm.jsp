@@ -23,6 +23,16 @@
         .btn { padding: 10px 20px; border-radius: 4px; cursor: pointer; text-decoration: none; border: 1px solid; }
         .btn-primary { background-color: #007bff; color: white; border-color: #007bff; }
         .btn-secondary { background-color: #6c757d; color: white; border-color: #6c757d; }
+
+        /* ======================= [수정된 부분] ======================= */
+        /* select 요소에만 드롭다운 화살표를 다시 표시합니다. */
+        select.form-control {
+            -webkit-appearance: auto; /* Chrome, Safari */
+            -moz-appearance: auto;    /* Firefox */
+            appearance: auto;         /* 표준 */
+        }
+        /* ============================================================= */
+
     </style>
 </head>
 <body>
@@ -43,7 +53,15 @@
                             </form:select>
                         </div>
                     </c:if>
-                    <c:if test="${userRole != 'ROLE_ADMIN'}"><form:hidden path="boardType" value="GENERAL"/></c:if>
+                    <c:if test="${userRole != 'ROLE_ADMIN'}">
+                        <%-- 일반 사용자는 이 필드가 보이지 않고, 값만 "GENERAL"로 전송됩니다. --%>
+                        <form:hidden path="boardType" value="GENERAL"/>
+                        <%-- 화면에는 수정 불가능한 텍스트로 보여주어 사용자가 인지할 수 있게 합니다. --%>
+                        <div class="form-group">
+                            <label>게시판 종류</label>
+                            <input type="text" class="form-control" value="일반" readonly>
+                        </div>
+                    </c:if>
                     <div class="form-group">
                         <label for="title">제목</label>
                         <form:input path="title" id="title" cssClass="form-control" placeholder="제목을 입력하세요" required="true" />
